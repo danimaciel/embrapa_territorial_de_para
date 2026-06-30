@@ -25,6 +25,7 @@
   --border: rgba(26,26,46,0.1);
   --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --mono: 'Courier New', monospace;
 }
 
 body {
@@ -61,28 +62,75 @@ body {
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 1.5rem 1.5rem 3rem;
 }
 
-.top-bar {
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.25rem;
+  overflow-x: auto;
+}
+.tab-btn {
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 9px 16px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--azure); border-bottom-color: var(--azure); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Filter bar */
+.filter-bar {
+  background: var(--white);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+}
+.filter-row {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 1.25rem;
+  gap: 8px;
   flex-wrap: wrap;
+  margin-bottom: 8px;
 }
-.top-bar .label {
-  font-size: 13px;
+.filter-row:last-child { margin-bottom: 0; }
+.filter-row .flabel {
+  font-size: 10.5px;
   color: var(--text-muted);
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  min-width: 92px;
 }
-.filters {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
+.search-input {
+  flex: 1;
+  min-width: 220px;
+  font-family: var(--font);
+  font-size: 12.5px;
+  padding: 7px 12px;
+  border: 0.5px solid var(--line);
+  border-radius: 99px;
+  background: var(--mist);
+  color: var(--text);
+  outline: none;
 }
+.search-input:focus { border-color: var(--azure); background: var(--white); }
+.chip-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .chip {
   font-size: 11px;
   padding: 4px 11px;
@@ -94,6 +142,7 @@ body {
   transition: all .15s;
   user-select: none;
   font-family: var(--font);
+  white-space: nowrap;
 }
 .chip.active {
   background: var(--azure);
@@ -103,6 +152,21 @@ body {
 .chip:hover:not(.active) {
   background: var(--frost);
   border-color: var(--mid);
+}
+.clear-btn {
+  font-size: 11px;
+  color: var(--amber);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+  text-decoration: underline;
+  padding: 4px 4px;
+}
+.result-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: auto;
 }
 
 .stat-row {
@@ -131,6 +195,27 @@ body {
   margin-top: 3px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 1.75rem 0 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.section-title .hint {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.card {
+  background: var(--white);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+  padding: 1.25rem;
 }
 
 .flow-hint {
@@ -175,7 +260,7 @@ body {
   border: 0.5px solid var(--line);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
-  min-height: 160px;
+  min-height: 120px;
 }
 .detail-panel h4 {
   font-size: 13px;
@@ -185,6 +270,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
 }
 .solutions-grid {
   display: grid;
@@ -196,13 +282,16 @@ body {
   border: 0.5px solid var(--line);
   border-radius: var(--radius);
   padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color .15s;
 }
+.sol-card:hover { border-color: var(--azure); }
 .sol-card .sol-id {
   font-size: 11px;
   font-weight: 600;
   color: var(--azure);
   margin-bottom: 4px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--mono);
 }
 .sol-card .sol-text {
   font-size: 11px;
@@ -224,11 +313,13 @@ body {
   padding: 2px 7px;
   border-radius: 99px;
   font-weight: 500;
+  white-space: nowrap;
 }
 .badge-warn { background: #fff3e0; color: #b5451b; }
 .badge-ok   { background: #e8f5e9; color: #2d6a4f; }
 .badge-info { background: #e3f2fd; color: #1b6ca8; }
 .badge-err  { background: #fce4d6; color: #b5451b; }
+.badge-mut  { background: #ede7f6; color: #4a3aa7; }
 
 .empty-state {
   color: var(--text-muted);
@@ -261,6 +352,203 @@ body {
   color: var(--text);
 }
 
+/* DI cards */
+.di-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+  margin-bottom: 1.25rem;
+}
+.di-card {
+  background: var(--white);
+  border: 0.5px solid var(--line);
+  border-left: 3px solid var(--mid);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.di-card .di-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.di-card .di-code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.di-card .di-count {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+.di-card .di-port {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.di-card .di-desafio {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 9px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.di-targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.di-target-chip {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 0.5px solid var(--line);
+  background: var(--surface-1);
+  cursor: pointer;
+  font-family: var(--mono);
+  color: var(--text);
+  transition: all .12s;
+}
+.di-target-chip:hover { border-color: var(--azure); background: var(--frost); }
+.di-target-chip.sel { background: var(--azure); color: #fff; border-color: var(--azure); }
+
+/* Table */
+.table-wrap {
+  background: var(--white);
+  border: 0.5px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+table.sol-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+table.sol-table th {
+  text-align: left;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  background: var(--surface-1);
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+table.sol-table th:hover { color: var(--azure); }
+table.sol-table th .arrow { font-size: 9px; opacity: 0.6; }
+table.sol-table td {
+  padding: 9px 10px;
+  border-bottom: 0.5px solid var(--line);
+  vertical-align: top;
+}
+table.sol-table tr.row:hover { background: var(--mist); cursor: pointer; }
+table.sol-table .id-cell { font-family: var(--mono); font-weight: 600; color: var(--azure); }
+table.sol-table .txt-cell {
+  max-width: 320px;
+  color: var(--text);
+  line-height: 1.45;
+}
+table.sol-table .port-flow, table.sol-table .di-flow {
+  font-size: 11px;
+  line-height: 1.6;
+}
+table.sol-table .arrow-sep { color: var(--mid); margin: 0 3px; }
+tr.expand-row td {
+  background: var(--surface-1);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.expand-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.expand-col h5 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.expand-col p {
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.expand-col .meta-line {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+.expand-col .meta-line b { color: var(--text); font-weight: 600; }
+.expand-footer {
+  grid-column: 1 / -1;
+  border-top: 0.5px dashed var(--line);
+  padding-top: 10px;
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Indicators */
+.ind-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 760px) { .ind-grid, .expand-grid { grid-template-columns: 1fr; } }
+.bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+.bar-row .blabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 168px;
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+.bar-track {
+  flex: 1;
+  background: var(--surface-1);
+  border-radius: 4px;
+  height: 14px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .3s;
+}
+.bar-row .bval {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.matrix-wrap { overflow-x: auto; }
+table.matrix { border-collapse: collapse; font-size: 10.5px; min-width: 640px; }
+table.matrix th, table.matrix td { padding: 6px 8px; text-align: center; border: 0.5px solid var(--line); }
+table.matrix th.rowhead { text-align: right; font-weight: 600; max-width: 130px; white-space: normal; line-height: 1.25; }
+table.matrix th.colhead { writing-mode: vertical-rl; transform: rotate(180deg); font-weight: 600; max-width: 26px; }
+table.matrix td.cell { font-weight: 600; color: var(--text); }
+table.matrix td.diag { outline: 1.5px solid var(--mid); }
+
 .page-footer {
   text-align: center;
   padding: 1.5rem;
@@ -278,34 +566,136 @@ body {
     <div class="brand">Embrapa Territorial · Farol da Inovação e Impacto</div>
     <h1>Análise De → Para · Desafios de Inovação</h1>
   </div>
-  <div class="subtitle">TF-IDF coseno · 44 soluções · 8 portfólios</div>
+  <div class="subtitle">TF-IDF coseno · 44 soluções · 8 portfólios · 16 DI atuais</div>
 </header>
 
 <div class="container">
-  <div class="top-bar">
-    <span class="label">Filtrar por portfólio:</span>
-    <div class="filters" id="filters"></div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="overview">Visão Geral</button>
+    <button class="tab-btn" data-tab="portfolio">Fluxo entre Portfólios</button>
+    <button class="tab-btn" data-tab="di">Desafios de Inovação (DI)</button>
+    <button class="tab-btn" data-tab="table">Lista de Soluções</button>
+    <button class="tab-btn" data-tab="indicators">Indicadores</button>
   </div>
 
-  <div class="stat-row" id="stats"></div>
-
-  <p class="flow-hint">
-    Cada faixa representa soluções migrando de um portfólio (esquerda · situação atual) para outro (direita · sugerido pelo TF-IDF).
-    Largura proporcional ao volume. <strong>Clique em uma faixa</strong> para ver as soluções daquele fluxo.
-  </p>
-
-  <div class="sankey-wrap">
-    <svg class="sankey-svg" id="sankey"></svg>
-  </div>
-
-  <div class="legend" id="legend"></div>
-
-  <div class="detail-panel" id="detail">
-    <div class="empty-state">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 15l3-3m0 0l3-3M12 12l-3-3m3 3l3 3"/><circle cx="12" cy="12" r="9"/></svg>
-      Clique em uma faixa do diagrama para ver as soluções correspondentes
+  <div class="filter-bar" id="filterBarWrap">
+    <div class="filter-row">
+      <span class="flabel">Buscar</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="ID, texto da solução, desafio, código DI...">
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="filter-row">
+      <span class="flabel">Portfólio</span>
+      <div class="chip-row" id="portChips"></div>
+    </div>
+    <div class="filter-row">
+      <span class="flabel">Classificação</span>
+      <div class="chip-row" id="classChips"></div>
+    </div>
+    <div class="filter-row">
+      <span class="flabel">Tipo de movimento</span>
+      <div class="chip-row" id="tipoChips"></div>
+      <button class="clear-btn" id="clearBtn">Limpar filtros</button>
     </div>
   </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-panel active" id="panel-overview">
+    <div class="stat-row" id="ovStats"></div>
+    <div class="ind-grid">
+      <div class="card">
+        <div class="section-title">Classificação da associação</div>
+        <div id="ovClass"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Tipo de movimento</div>
+        <div id="ovTipo"></div>
+      </div>
+    </div>
+    <div class="section-title">Como ler esta análise <span class="hint">— metodologia</span></div>
+    <div class="card">
+      <p style="font-size:12px;line-height:1.7;color:var(--text-muted)">
+        Para cada solução de inovação, o sistema compara o texto da solução (e, opcionalmente, o compromisso vinculado) com a base de
+        Desafios de Inovação (DI) cadastrados, usando similaridade TF-IDF/cosseno. A coluna <strong>PARA</strong> traz o DI de maior
+        similaridade (Top 1); quando esse DI sugerido difere do DI atualmente associado à solução, a <strong>Classificação</strong> indica
+        o nível de confiança da divergência: <em>Mantém DI atual</em> (já é a melhor opção), <em>Associação atual defensável</em>
+        (DI atual ainda é competitivo), <em>Associação transversal/ambígua</em> (tema permeia mais de um portfólio) ou
+        <em>Revisar associação</em> (recomenda-se reclassificar). Use as abas acima para explorar por portfólio, por Desafio de Inovação
+        específico, na lista completa ou nos indicadores agregados.
+      </p>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO SANKEY -->
+  <div class="tab-panel" id="panel-portfolio">
+    <p class="flow-hint">
+      Cada faixa representa soluções migrando de um portfólio (esquerda · situação atual) para outro (direita · sugerido pelo TF-IDF).
+      Largura proporcional ao volume. <strong>Clique em uma faixa</strong> para ver as soluções daquele fluxo.
+    </p>
+    <div class="sankey-wrap">
+      <svg class="sankey-svg" id="sankey"></svg>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="detail-panel" id="portDetail"></div>
+  </div>
+
+  <!-- DI VIEW -->
+  <div class="tab-panel" id="panel-di">
+    <p class="flow-hint">
+      Cada cartão é um Desafio de Inovação (DI) <strong>atual</strong>, com o portfólio ao qual pertence hoje. Os chips abaixo do texto
+      mostram para quais DI as soluções vinculadas foram <strong>sugeridas</strong> (com a contagem de soluções). Clique em um chip para
+      ver as soluções daquele par DI atual → DI sugerido.
+    </p>
+    <div class="di-grid" id="diGrid"></div>
+    <div class="detail-panel" id="diDetail"></div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tab-panel" id="panel-table">
+    <p class="flow-hint">Clique em uma linha para ver todos os campos da solução (desafios completos, OE, meta, ODS, compromisso, método e alternativa calculada só com o texto da solução). Clique nos cabeçalhos para ordenar.</p>
+    <div class="table-wrap">
+      <table class="sol-table" id="solTable">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- INDICATORS -->
+  <div class="tab-panel" id="panel-indicators">
+    <div class="ind-grid">
+      <div class="card">
+        <div class="section-title">Classificação da associação</div>
+        <div id="indClass"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Tipo de movimento</div>
+        <div id="indTipo"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Método de identificação do DI atual</div>
+        <div id="indMetodo"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Similaridade média por classificação</div>
+        <div id="indSimClass"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">ODS · desafio atual (DE)</div>
+        <div id="indOdsDe"></div>
+      </div>
+      <div class="card">
+        <div class="section-title">ODS · desafio sugerido (PARA)</div>
+        <div id="indOdsPara"></div>
+      </div>
+    </div>
+    <div class="section-title">Matriz de transição entre portfólios <span class="hint">linhas = DE (atual) · colunas = PARA (sugerido)</span></div>
+    <div class="card matrix-wrap">
+      <table class="matrix" id="matrixTable"></table>
+    </div>
+  </div>
+
 </div>
 
 <footer class="page-footer">
@@ -315,54 +705,8 @@ body {
 <div class="tooltip" id="tip"></div>
 
 <script>
-const DATA = [
-  {id:"SOL036",texto:"Rede de organizações de agricultores familiares integrada com capacidade de autogestão na bacia leiteira caprina da Paraíba e Pernambuco.",de_di:"D101",de_port:"Agroecologia e Inclusão Socioprodutiva",de_desafio:"Viabilizar sistemas agroalimentares com sinais distintivos ou identidade territorial que geram renda e valor a populações em situação de vulnerabilidade",para_di:"D003",para_port:"Economia da Biodiversidade",para_desafio:"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais",sim:0.1355,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL033",texto:"Prospecção de experiências e demandas para apoiar a agricultura de base agroecológica no Leste Paulista.",de_di:"D046",de_port:"Agroecologia e Inclusão Socioprodutiva",de_desafio:"Fortalecer redes sociotécnicas com laboratórios ou nichos de inovação social e tecnológica",para_di:"D020",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários e dos recursos naturais",sim:0.2540,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL011",texto:"Ferramentas avançadas de informação para monitoramento e definição de estratégias de manejo da resistência de plantas daninhas a herbicidas.",de_di:"D065",de_port:"Bioeficiência na Agropecuária",de_desafio:"Oferecer estratégias e tecnologias seguras e sustentáveis para mitigar impactos decorrentes de efeitos bióticos e abióticos",para_di:"D100",para_port:"Agroecologia e Inclusão Socioprodutiva",para_desafio:"Viabilizar práticas e processos para o manejo de plantas espontâneas e produção local de fertilizantes renováveis",sim:0.1012,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL027",texto:"Módulo de sistema de monitoramento e alerta de ocorrência do bicudo do algodoeiro no Oeste da Bahia.",de_di:"D060",de_port:"Bioeficiência na Agropecuária",de_desafio:"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes",para_di:"D012",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Ampliar o conhecimento e a disponibilização de informações sobre a ocorrência e distribuição dos solos brasileiros",sim:0.0604,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL012",texto:"Ferramentas para apoiar o monitoramento, a identificação e o controle das pragas quarentenárias ausentes.",de_di:"D065",de_port:"Bioeficiência na Agropecuária",de_desafio:"Oferecer estratégias e tecnologias seguras e sustentáveis para mitigar impactos decorrentes de efeitos bióticos e abióticos",para_di:"D098",para_port:"Transformação Digital no Agro",para_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",sim:0.1351,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL016",texto:"Mapeamento das potenciais rotas de risco de ingresso e disseminação de 11 pragas quarentenárias priorizadas.",de_di:"D060",de_port:"Bioeficiência na Agropecuária",de_desafio:"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes",para_di:"D098",para_port:"Transformação Digital no Agro",para_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",sim:0.1216,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL041",texto:"Soluções tecnológicas para a superação dos efeitos na agricultura das enchentes e deslizamentos ocorridos no Rio Grande do Sul.",de_di:"D017",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Aumentar a capacidade adaptativa e a resiliência dos sistemas de produção agrícola com maior impacto econômico",para_di:"D099",para_port:"Agroecologia e Inclusão Socioprodutiva",para_desafio:"Viabilizar práticas e processos de preservação, conservação, recuperação e melhoria de sistemas agroecológicos",sim:0.1539,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL026",texto:"Metodologias e procedimentos informatizados voltados à afinação de grandes modelos de linguagem (LLM) e geração aumentada de recuperação (RAG).",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D094",para_port:"Economia Verde",para_desafio:"Viabilizar o desenvolvimento de indicadores e modelos para quantificação de impactos de biomassas",sim:0.0819,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL018",texto:"Mapeamento de carbono e da biodiversidade faunística em áreas de produção citrícola, nos Estados de São Paulo e Minas Gerais.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D003",para_port:"Economia da Biodiversidade",para_desafio:"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais",sim:0.1853,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL019",texto:"Mapeamento dos estoques e valoração de carbono no solo e na biomassa vegetal dos cafeeiros na região das Matas de Rondônia.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D003",para_port:"Economia da Biodiversidade",para_desafio:"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais",sim:0.1374,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL028",texto:"Monitoramento e Implementação de soluções de manejo de solo, planta e água usando técnicas de Agricultura de Precisão e sensores proximais.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D104",para_port:"Economia da Biodiversidade",para_desafio:"Viabilizar soluções tecnológicas para aprimorar o manejo e monitoramento da biodiversidade",sim:0.0930,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL004",texto:"Avaliação da entomofauna associada a cultivos de macadâmia em Dois Córregos/SP e prospecção de insetos-praga exóticos.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D020",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários",sim:0.1719,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL023",texto:"Método de identificação e monitoramento das condições das pastagens por dados de satélite.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D077",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",sim:0.1154,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL005",texto:"Bancos de dados e metodologias técnico-científicas para preparação dos dados para treino e avaliação de modelos de inteligência artificial (IA).",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D098",para_port:"Transformação Digital no Agro",para_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",sim:0.0893,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL032",texto:"Processo para utilização de microrganismos solubilizadores de fosfato na cultura do feijoeiro-comum no estado de São Paulo.",de_di:"D055",de_port:"Economia Verde",de_desafio:"Incrementar o desenvolvimento de bioinsumos para uso na fertilidade do solo",para_di:"D020",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários",sim:0.1643,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL037",texto:"Sensoriamento de pomar de macieira para geração de informação de manejo e de produção.",de_di:"D018",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Aumentar a competitividade de sistemas de produção consolidados",para_di:"D030",para_port:"Agroecologia e Inclusão Socioprodutiva",para_desafio:"Desenvolver máquinas, equipamentos e ferramentas para redução da penosidade do trabalho na agricultura familiar",sim:0.1015,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL006",texto:"Bases de dados da logística de suprimentos de nutrientes para a agricultura brasileira: fontes alternativas de nutrientes.",de_di:"D077",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",para_di:"D033",para_port:"Biorrevolução",para_desafio:"Desenvolver processos nanotecnológicos para obtenção de nutrientes, medicamentos, vacinas e demais insumos",sim:0.1446,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL044",texto:"Avaliação da eficiência e efetividade de pastagens degradadas com bioestimulantes e biofertilizantes.",de_di:"D077",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",para_di:"D096",para_port:"Biorrevolução",para_desafio:"Desenvolver materiais nanoestruturados pelo reaproveitamento de resíduos agropecuários",sim:0.0575,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL015",texto:"Recuperação de pastagens degradadas em solos de baixa fertilidade com adubação e dessecação por herbicidas.",de_di:"D077",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",para_di:"D067",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Promover a saúde e a capacidade produtiva dos solos em áreas degradadas",sim:0.1653,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL025",texto:"Monitoramento de indicadores de qualidade do solo em sistemas de integração lavoura-pecuária-floresta.",de_di:"D018",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Aumentar a competitividade de sistemas de produção consolidados",para_di:"D048",para_port:"Economia da Biodiversidade",para_desafio:"Fortalecer sistemas de monitoramento e rastreabilidade de produtos e serviços ecossistêmicos",sim:0.0849,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL010",texto:"Plataforma de análise de dados para diagnóstico do potencial de adoção de tecnologias agrícolas no Brasil.",de_di:"D075",de_port:"Transformação Digital no Agro",de_desafio:"Promover soluções ciber físicas e digitais para impulsionar a transformação dos processos agroprodutivos",para_di:"D086",para_port:"Agroecologia e Inclusão Socioprodutiva",para_desafio:"Viabilizar construção, acesso e implementação de monitoramento de projetos de desenvolvimento rural",sim:0.1073,tipo:"Muda DI e portfolio",class_:"Revisar associacao"},
-  {id:"SOL029",texto:"Plataforma de gestão e processamento de big data para aplicações no agronegócio.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D093",para_port:"Biorrevolução",para_desafio:"Viabilizar o biodesign e a engenharia de sistemas biológicos aplicáveis ao setor agropecuário",sim:0.0640,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL007",texto:"Tecnologia para mapeamento e análise de uso e cobertura da terra por imagens de satélite.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D027",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Desenvolver e integrar ferramentas e modelos para caracterização e prognóstico do uso sustentável dos solos",sim:0.0652,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL009",texto:"Sistema de monitoramento da qualidade da água e solo em bacias hidrográficas produtoras.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D035",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Desenvolver soluções para manejo e gestão da água visando a conservação de fontes superficiais e subterrâneas",sim:0.0663,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL017",texto:"Sistema de suporte à decisão baseado em inteligência geográfica para o planejamento do uso do solo.",de_di:"D078",de_port:"Transformação Digital no Agro",de_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",para_di:"D012",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Ampliar o conhecimento sobre a ocorrência e distribuição dos solos brasileiros",sim:0.0999,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL013",texto:"Sistema de monitoramento da qualidade ambiental e dos serviços ecossistêmicos em paisagens agrícolas.",de_di:"D078",de_port:"Transformação Digital no Agro",de_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",para_di:"D054",para_port:"Economia Verde",para_desafio:"Incrementar o desenvolvimento de bioinsumos para uso ambiental",sim:0.1302,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL039",texto:"Plataforma digital para gestão de dados de pesquisa sobre bioinsumos agrícolas.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D054",para_port:"Economia Verde",para_desafio:"Incrementar o desenvolvimento de bioinsumos para uso ambiental",sim:0.0792,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL030",texto:"Plataforma de dados abertos sobre biodiversidade agrícola e serviços ecossistêmicos.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D048",para_port:"Economia da Biodiversidade",para_desafio:"Fortalecer sistemas de monitoramento e rastreabilidade de produtos e serviços ecossistêmicos",sim:0.0840,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL002",texto:"Mapeamento de aptidão das terras para sistemas aquícolas no Brasil.",de_di:"D078",de_port:"Transformação Digital no Agro",de_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",para_di:"D059",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Intensificar e/ou propor Sistemas Integrados de Produção Não Convencionais",sim:0.0628,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL003",texto:"Mapeamento do potencial de aquicultura em reservatórios do semiárido.",de_di:"D078",de_port:"Transformação Digital no Agro",de_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",para_di:"D058",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Intensificar a Aquicultura com a adoção de práticas que aumentem a produção de forma sustentável",sim:0.1058,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL022",texto:"Sistema de recomendação de manejo baseado em aprendizado de máquina para culturas de grãos.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D020",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários",sim:0.0678,tipo:"Muda DI e portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL040",texto:"Método participativo de sistematização e difusão de experiências agroecológicas para agricultores familiares.",de_di:"D046",de_port:"Agroecologia e Inclusão Socioprodutiva",de_desafio:"Fortalecer redes sociotécnicas com laboratórios ou nichos de inovação social e tecnológica",para_di:"D101",para_port:"Agroecologia e Inclusão Socioprodutiva",para_desafio:"Viabilizar sistemas agroalimentares com sinais distintivos ou identidade territorial",sim:0.2118,tipo:"Muda DI no mesmo portfolio",class_:"Revisar associacao"},
-  {id:"SOL043",texto:"Plataforma de rastreabilidade e certificação de produtos de origem animal para mercados exigentes.",de_di:"D062",de_port:"Bioeficiência na Agropecuária",de_desafio:"Melhorar qualidade, vida útil e/ou sanidade de produtos de origem animal e vegetal",para_di:"D060",para_port:"Bioeficiência na Agropecuária",para_desafio:"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes",sim:0.1446,tipo:"Muda DI no mesmo portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL014",texto:"Avaliação da multifuncionalidade da paisagem em propriedades rurais do bioma Cerrado.",de_di:"D006",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Ampliar a multifuncionalidade da paisagem para garantir a manutenção dos serviços ecossistêmicos",para_di:"D006",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Ampliar a multifuncionalidade da paisagem para garantir a manutenção dos serviços ecossistêmicos",sim:0.2147,tipo:"Mantem DI",class_:"Mantem DI atual"},
-  {id:"SOL024",texto:"Protocolo de certificação de processos produtivos para serviços ecossistêmicos.",de_di:"D028",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos",para_di:"D028",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos",sim:0.3432,tipo:"Mantem DI",class_:"Mantem DI atual"},
-  {id:"SOL034",texto:"Indicadores de sustentabilidade para certificação de sistemas de produção integrados.",de_di:"D001",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis",para_di:"D028",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos",sim:0.2108,tipo:"Muda DI no mesmo portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL035",texto:"Protocolo de monitoramento e validação de indicadores de serviços ecossistêmicos em paisagens agrícolas.",de_di:"D028",de_port:"Clima, recursos naturais e transformação ecológica",de_desafio:"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos",para_di:"D028",para_port:"Clima, recursos naturais e transformação ecológica",para_desafio:"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos",sim:0.3371,tipo:"Mantem DI",class_:"Mantem DI atual"},
-  {id:"SOL042",texto:"Avaliação do ciclo de vida de sistemas de produção de bioenergia a partir de resíduos agrícolas.",de_di:"D005",de_port:"Economia Verde",de_desafio:"Ampliar a eficiência energética e produção de bioenergia a partir de biomassa cultivada e/ou resíduos",para_di:"D094",para_port:"Economia Verde",para_desafio:"Viabilizar o desenvolvimento de indicadores e modelos para quantificação de impactos de biomassas",sim:0.1454,tipo:"Muda DI no mesmo portfolio",class_:"Revisar associacao"},
-  {id:"SOL021",texto:"Recuperação de pastagens degradadas com espécies forrageiras adaptadas ao bioma Cerrado.",de_di:"D077",de_port:"Sistemas de Produção Sustentáveis e Resilientes",de_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",para_di:"D077",para_port:"Sistemas de Produção Sustentáveis e Resilientes",para_desafio:"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas",sim:0.2415,tipo:"Mantem DI",class_:"Mantem DI atual"},
-  {id:"SOL001",texto:"Plataforma integrada de dados e serviços de sensoriamento remoto para monitoramento da vegetação brasileira.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D078",para_port:"Transformação Digital no Agro",para_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",sim:0.2144,tipo:"Muda DI no mesmo portfolio",class_:"Revisar associacao"},
-  {id:"SOL008",texto:"Sistema geoespacial para monitoramento e análise de uso da terra e cobertura vegetal.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D078",para_port:"Transformação Digital no Agro",para_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",sim:0.1371,tipo:"Muda DI no mesmo portfolio",class_:"Associacao atual defensavel"},
-  {id:"SOL020",texto:"Plataforma de monitoramento territorial para apoio à tomada de decisão em políticas públicas rurais.",de_di:"D078",de_port:"Transformação Digital no Agro",de_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",para_di:"D098",para_port:"Transformação Digital no Agro",para_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",sim:0.0899,tipo:"Muda DI no mesmo portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL031",texto:"Sistema de informações geoespaciais para suporte ao planejamento de sistemas agroalimentares.",de_di:"D098",de_port:"Transformação Digital no Agro",de_desafio:"Viabilizar plataformas digitais para a gestão de dados e informações científicas",para_di:"D078",para_port:"Transformação Digital no Agro",para_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",sim:0.1537,tipo:"Muda DI no mesmo portfolio",class_:"Associacao transversal/ambigua"},
-  {id:"SOL038",texto:"Sistema embarcado de suporte à decisão para automação de processos agropecuários.",de_di:"D075",de_port:"Transformação Digital no Agro",de_desafio:"Promover soluções ciber físicas e digitais para impulsionar a transformação dos processos agroprodutivos",para_di:"D078",para_port:"Transformação Digital no Agro",para_desafio:"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo e as políticas públicas",sim:0.1516,tipo:"Muda DI no mesmo portfolio",class_:"Revisar associacao"}
-];
-
-const COLORS = {
+const DATA = [{"id":"SOL036","texto":"Rede de organizações de agricultores familiares integrada com capacidade de autogestão na bacia leiteira caprina da Paraíba e Pernambuco.","comp":"COMP020","de_di":"D101","de_desafio":"Viabilizar sistemas agroalimentares com sinais distintivos ou identidade territorial que geram renda (monetária e não monetária) e valor a populações em situação de vulnerabilidade socioeconômica ou produtiva","de_port":"Agroecologia e Inclusão Socioprodutiva","de_oe":"OE6","de_meta":"Sem meta","de_ods":"ODS 8","para_di":"D003","para_desafio":"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais nas unidades de base familiar e territórios de povos e comunidades tradicionais","para_port":"Economia da Biodiversidade","para_oe":"OE6","para_meta":"Meta 06.3","para_ods":"ODS 11","sim":0.1355,"rank_di_atual":20,"sim_di_atual":0.0232,"diff":0.1123,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D083","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.1125},{"id":"SOL033","texto":"Prospecção de experiências e demandas para apoiar a agricultura de base agroecológica no Leste Paulista.","comp":"COMP019","de_di":"D046","de_desafio":"Fortalecer redes sociotécnicas com laboratórios ou nichos de inovação social e tecnológica para gestão organizacional, diversificação produtiva e acesso a mercados locais, associados à pluriatividade e à multifuncionalidade dos espaços rural, urbano, periurbano e das regiões costeiras","de_port":"Agroecologia e Inclusão Socioprodutiva","de_oe":"OE6","de_meta":"Sem meta","de_ods":"ODS 12","para_di":"D020","para_desafio":"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários e dos recursos naturais dos sistemas produtivos","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE1","para_meta":"Meta 01.1","para_ods":"ODS 2","sim":0.254,"rank_di_atual":63,"sim_di_atual":0.0184,"diff":0.2356,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D042","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.0763},{"id":"SOL011","texto":"Ferramentas avançadas de informação para monitoramento e definição de estratégias de manejo da resistência de plantas daninhas a herbicidas em sistemas agrícolas no Brasil","comp":"COMP016","de_di":"D065","de_desafio":"Oferecer estratégias e tecnologias seguras e sustentáveis para mitigar impactos decorrentes de efeitos bióticos e abióticos de relevância para sistemas de produção agropecuários e florestais","de_port":"Bioeficiência na Agropecuária","de_oe":"OE2","de_meta":"Meta 02.4","de_ods":"ODS 13","para_di":"D100","para_desafio":"Viabilizar práticas e processos para o manejo de plantas espontâneas, produção local de fertilizantes de fontes renováveis e insumos biológicos que contribuam para a produção vegetal e animal e para o equilíbrio ecológico em sistemas agroecológicos, orgânicos, agroflorestais, agrícolas tradicionais e extrativistas","para_port":"Agroecologia e Inclusão Socioprodutiva","para_oe":"OE6","para_meta":"Sem meta","para_ods":"ODS 2","sim":0.1012,"rank_di_atual":35,"sim_di_atual":0.0216,"diff":0.0796,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D053","so_sol_port":"Economia Verde","so_sol_sim":0.1228},{"id":"SOL027","texto":"Módulo de sistema de monitoramento e alerta de ocorrência do bicudo do algodoeiro no Oeste da Bahia.","comp":"COMP022","de_di":"D060","de_desafio":"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes físicos, químicos e biológicos em produtos de origem animal e vegetal e/ou mitigar impactos e riscos relevantes na saúde única e em barreiras não tarifárias","de_port":"Bioeficiência na Agropecuária","de_oe":"OE4","de_meta":"Meta 04.1","de_ods":"ODS 12","para_di":"D012","para_desafio":"Ampliar o conhecimento e a disponibilização de informações sobre a ocorrência e distribuição dos solos brasileiros e suas interpretações técnicas","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 15","sim":0.0604,"rank_di_atual":65,"sim_di_atual":0.0,"diff":0.0604,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D012","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0949},{"id":"SOL012","texto":"Ferramentas para apoiar o monitoramento, a identificação e o controle das pragas quarentenárias ausentes Anastrepha suspensa, Prodiplosis longifila e Homalodisca vitripennis","comp":"COMP029","de_di":"D065","de_desafio":"Oferecer estratégias e tecnologias seguras e sustentáveis para mitigar impactos decorrentes de efeitos bióticos e abióticos de relevância para sistemas de produção agropecuários e florestais","de_port":"Bioeficiência na Agropecuária","de_oe":"OE2","de_meta":"Meta 02.4","de_ods":"ODS 13","para_di":"D098","para_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","para_port":"Transformação Digital no Agro","para_oe":"OE1","para_meta":"Meta 01.3","para_ods":"ODS 2","sim":0.1351,"rank_di_atual":95,"sim_di_atual":0.0,"diff":0.1351,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D053","so_sol_port":"Economia Verde","so_sol_sim":0.1493},{"id":"SOL016","texto":"Mapeamento das potenciais rotas de risco de ingresso e disseminação de 11 pragas quarentenárias priorizadas, com os respectivos atributos bióticos e abióticos, e banco de dados espaciais sobre barreiras sanitárias, com dados sobre infraestrutura, equipes e operações.","comp":"COMP017","de_di":"D060","de_desafio":"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes físicos, químicos e biológicos em produtos de origem animal e vegetal e/ou mitigar impactos e riscos relevantes na saúde única e em barreiras não tarifárias","de_port":"Bioeficiência na Agropecuária","de_oe":"OE4","de_meta":"Meta 04.1","de_ods":"ODS 12","para_di":"D098","para_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","para_port":"Transformação Digital no Agro","para_oe":"OE1","para_meta":"Meta 01.3","para_ods":"ODS 2","sim":0.1216,"rank_di_atual":10,"sim_di_atual":0.0382,"diff":0.0834,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D066","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.1421},{"id":"SOL041","texto":"Soluções tecnológicas para a superação dos efeitos na agricultura das enchentes e deslizamentos ocorridos no Rio Grande do Sul","comp":"COMP008","de_di":"D017","de_desafio":"Aumentar a capacidade adaptativa e a resiliência dos sistemas de produção agrícola com maior impacto econômico projetado e relevância para segurança alimentar a partir de cenários de mudança climática","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.1","de_ods":"ODS 2","para_di":"D099","para_desafio":"Viabilizar práticas e processos de preservação, conservação, recuperação e melhoria de sistemas de produção animal e vegetal agroecológicos, orgânicos, agroflorestais e agrícolas tradicionais no contexto de mudanças climáticas e estresses abióticos nos biomas brasileiros","para_port":"Agroecologia e Inclusão Socioprodutiva","para_oe":"OE6","para_meta":"Sem meta","para_ods":"ODS 13","sim":0.1539,"rank_di_atual":44,"sim_di_atual":0.0,"diff":0.1539,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D083","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.0986},{"id":"SOL026","texto":"Metodologias e procedimentos informatizados voltados à afinação (fine-tuning) de grandes modelos de linguagem (LLM) e à geração de aumentada de recuperação (RAG) e softwares de perguntas e respostas para uso dos modelos pré-treinados na temática de agricultura","comp":"COMP027","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D094","para_desafio":"Viabilizar o desenvolvimento de indicadores e modelos para quantificação de impactos decorrentes de processos e produtos derivados de biomassas","para_port":"Economia Verde","para_oe":"OE5","para_meta":"Meta 05.3","para_ods":"ODS 12","sim":0.0819,"rank_di_atual":28,"sim_di_atual":0.0,"diff":0.0819,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"inferido_por_TF_IDF_texto_DI_atual","so_sol_di":"D094","so_sol_port":"Economia Verde","so_sol_sim":0.0875},{"id":"SOL018","texto":"Mapeamento de carbono e da biodiversidade faunística em áreas de produção citrícola, nos Estados de São Paulo e Minas Gerais.","comp":"COMP015","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D003","para_desafio":"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais nas unidades de base familiar e territórios de povos e comunidades tradicionais","para_port":"Economia da Biodiversidade","para_oe":"OE6","para_meta":"Meta 06.3","para_ods":"ODS 11","sim":0.1853,"rank_di_atual":9,"sim_di_atual":0.0597,"diff":0.1255,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D081","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0612},{"id":"SOL019","texto":"Mapeamento dos estoques e valoração de carbono no solo e na biomassa vegetal dos cafeeiros na região das Matas de Rondônia","comp":"COMP015","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D003","para_desafio":"Ampliar a agregação de valor aos produtos da biodiversidade e dos serviços ambientais nas unidades de base familiar e territórios de povos e comunidades tradicionais","para_port":"Economia da Biodiversidade","para_oe":"OE6","para_meta":"Meta 06.3","para_ods":"ODS 11","sim":0.1374,"rank_di_atual":10,"sim_di_atual":0.0577,"diff":0.0797,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D013","so_sol_port":"Economia Verde","so_sol_sim":0.1125},{"id":"SOL028","texto":"Monitoramento e Implementação de soluções de manejo de solo, planta e água usando técnicas de Agricultura de Precisão e sensores proximais de campo e remotos","comp":"COMP027","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D104","para_desafio":"Viabilizar soluções tecnológicas para aprimorar o manejo e o monitoramento da biodiversidade nos sistemas de produção agroextrativistas da agricultura familiar e de povos e comunidades tradicionais (PCTs)","para_port":"Economia da Biodiversidade","para_oe":"OE6","para_meta":"Meta 06.3","para_ods":"ODS 2","sim":0.093,"rank_di_atual":38,"sim_di_atual":0.0,"diff":0.093,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"inferido_por_TF_IDF_texto_DI_atual","so_sol_di":"D090","so_sol_port":"Transformação Digital no Agro","so_sol_sim":0.1039},{"id":"SOL004","texto":"Avaliação da entomofauna associada a cultivos de macadâmia em Dois Córregos/SP, prospecção e avaliação dos principais insetos-praga exóticos de importância para cultivos de macadâmia no exterior, mas ausentes nas áreas avaliadas, e seus possíveis bioagentes de controle","comp":"COMP028","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D020","para_desafio":"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários e dos recursos naturais dos sistemas produtivos","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE1","para_meta":"Meta 01.1","para_ods":"ODS 2","sim":0.1719,"rank_di_atual":15,"sim_di_atual":0.0416,"diff":0.1303,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"inferido_por_TF_IDF_texto_DI_atual","so_sol_di":"D029","so_sol_port":"Biorrevolução","so_sol_sim":0.0713},{"id":"SOL023","texto":"Método de identificação e monitoramento das condições das pastagens por dados de satélite","comp":"COMP027","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D077","para_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 2","sim":0.1154,"rank_di_atual":18,"sim_di_atual":0.0,"diff":0.1154,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"inferido_por_TF_IDF_texto_DI_atual","so_sol_di":"D077","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.1506},{"id":"SOL005","texto":"Bancos de dados e metodologias técnico-científicas para preparação dos dados para treino e avaliação de modelos de inteligência artificial (IA)","comp":"COMP027","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D098","para_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","para_port":"Transformação Digital no Agro","para_oe":"OE1","para_meta":"Meta 01.3","para_ods":"ODS 2","sim":0.0893,"rank_di_atual":17,"sim_di_atual":0.0,"diff":0.0893,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"inferido_por_TF_IDF_texto_DI_atual","so_sol_di":"D098","so_sol_port":"Transformação Digital no Agro","so_sol_sim":0.1101},{"id":"SOL032","texto":"Processo para utilização de microrganismos solubilizadores de fosfato na cultura do feijoeiro-comum no estado de São Paulo","comp":"COMP018","de_di":"D055","de_desafio":"Incrementar o desenvolvimento de bioinsumos para uso na fertilidade do solo, na nutrição e crescimento das plantas ou na tolerância a estresses abióticos, em sistemas de produção agropecuária","de_port":"Economia Verde","de_oe":"OE5","de_meta":"Meta 05.1","de_ods":"ODS 2","para_di":"D020","para_desafio":"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários e dos recursos naturais dos sistemas produtivos","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE1","para_meta":"Meta 01.1","para_ods":"ODS 2","sim":0.1643,"rank_di_atual":14,"sim_di_atual":0.0373,"diff":0.127,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D020","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.1263},{"id":"SOL037","texto":"Sensoriamento de pomar de macieira para geração de informação de manejo e de produção","comp":"COMP001","de_di":"D018","de_desafio":"Aumentar a competitividade de sistemas de produção consolidados, avançando na proposição de novas práticas, tecnologias, métricas e/ou indicadores que evidenciam a maior eficiência no uso dos insumos e/ou recursos de produção, elevando a qualidade dos produtos obtidos da atividade agropecuária","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE1","de_meta":"Meta 01.1","de_ods":"ODS 2","para_di":"D030","para_desafio":"Desenvolver máquinas, equipamentos e ferramentas manuais, mecânicas e automatizadas para a redução da penosidade do trabalho e aumento da produtividade da mão de obra na agricultura familiar e nos grupos sociais em situação de vulnerabilidade socioeconômica ou produtiva","para_port":"Agroecologia e Inclusão Socioprodutiva","para_oe":"OE6","para_meta":"Meta 06.3","para_ods":"ODS 8","sim":0.1015,"rank_di_atual":38,"sim_di_atual":0.0211,"diff":0.0804,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D029","so_sol_port":"Biorrevolução","so_sol_sim":0.1201},{"id":"SOL006","texto":"Bases de dados da logística de suprimentos de nutrientes para a agricultura brasileira: fontes alternativas de nutrientes.","comp":"COMP011","de_di":"D077","de_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE2","de_meta":"Meta 02.1","de_ods":"ODS 2","para_di":"D033","para_desafio":"Desenvolver processos nanotecnológicos para obtenção de nutrientes, medicamentos, vacinas e demais insumos adotados na alimentação e sanidade de animais","para_port":"Biorrevolução","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.1446,"rank_di_atual":10,"sim_di_atual":0.0549,"diff":0.0897,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D033","so_sol_port":"Biorrevolução","so_sol_sim":0.1997},{"id":"SOL044","texto":"Zoneamento agrogeológico das zonas de consumo e produção nas porções Sudoeste de Goiás, Sudeste de Mato Grosso e Norte de Mato Grosso do Sul,dos agrominerais potenciais da Província Alcalina de Goiás.","comp":"COMP011","de_di":"D077","de_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE2","de_meta":"Meta 02.1","de_ods":"ODS 2","para_di":"D096","para_desafio":"Viabilizar o desenvolvimento ou otimização de materiais nanoestruturados pelo reaproveitamento de resíduos e subprodutos agropecuários, agroindustriais e florestais, visando aplicação na indústria de alimentos, materiais, pós-colheita, embalagens, controle biológico e na provisão de fontes alternativas de fertilizantes na agropecuária","para_port":"Biorrevolução","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.0575,"rank_di_atual":86,"sim_di_atual":0.0,"diff":0.0575,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D016","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.0421},{"id":"SOL015","texto":"Mapeamento da aptidão agrícola no Brasil e zoneamento de uso potencial de áreas com pastagem em processo de degradação.","comp":"COMP010","de_di":"D077","de_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE2","de_meta":"Meta 02.1","de_ods":"ODS 2","para_di":"D067","para_desafio":"Promover a saúde e a capacidade produtiva dos solos, principalmente em áreas degradadas ou em processo de degradação considerando as diversidades regionais e a identidade territorial","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 15","sim":0.1653,"rank_di_atual":2,"sim_di_atual":0.063,"diff":0.1023,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D067","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.1895},{"id":"SOL025","texto":"Metodologia para avaliação de riscos e ferramentas para a tomada de decisão relacionadas com o cultivo de trigo na região tropical do Brasil Central.","comp":"COMP003","de_di":"D018","de_desafio":"Aumentar a competitividade de sistemas de produção consolidados, avançando na proposição de novas práticas, tecnologias, métricas e/ou indicadores que evidenciam a maior eficiência no uso dos insumos e/ou recursos de produção, elevando a qualidade dos produtos obtidos da atividade agropecuária","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE1","de_meta":"Meta 01.1","de_ods":"ODS 2","para_di":"D048","para_desafio":"Fortalecer sistemas de monitoramento e rastreabilidade de produtos e serviços ecossistêmicos visando a agregação de renda, transparência e acesso a novos mercados com base na biodiversidade dos biomas brasileiros","para_port":"Economia da Biodiversidade","para_oe":"OE3","para_meta":"Meta 03.2","para_ods":"ODS 12","sim":0.0849,"rank_di_atual":10,"sim_di_atual":0.0606,"diff":0.0243,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D023","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.1531},{"id":"SOL010","texto":"Estruturação e implementação da plataforma dos hubs virtuais de caprinos e ovinos para promoção da conectividade e desenvolvimento da cadeia produtiva","comp":"COMP026","de_di":"D075","de_desafio":"Promover soluções ciber físicas e digitais para impulsionar a transformação dos processos agroprodutivos, considerando os diferentes níveis tecnológicos das unidades produtivas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.1","de_ods":"ODS 2","para_di":"D086","para_desafio":"Viabilizar a construção, o acesso, a implementação e estudos colaborativos de monitoramento e avaliação da efetividade de projetos, programas e políticas públicas, visando contribuir para o desenvolvimento rural sustentável, a inclusão socioprodutiva e a segurança e soberania alimentar","para_port":"Agroecologia e Inclusão Socioprodutiva","para_oe":"OE6","para_meta":"Sem meta","para_ods":"ODS 10","sim":0.1073,"rank_di_atual":82,"sim_di_atual":0.0,"diff":0.1073,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D014","so_sol_port":"Economia da Biodiversidade","so_sol_sim":0.1148},{"id":"SOL029","texto":"Plataforma digital de dados territoriais qualificados do fenômeno dos desmatamentos no Bioma Amazônia e suas relações com indicadores econômicos, sociais e ambientais","comp":"COMP023","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D093","para_desafio":"Viabilizar o biodesign e a engenharia de sistemas biológicos que ampliam o desempenho de funções aplicáveis ao setor agropecuário e agroindustrial","para_port":"Biorrevolução","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.064,"rank_di_atual":17,"sim_di_atual":0.0261,"diff":0.0379,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D106","so_sol_port":"Agroecologia e Inclusão Socioprodutiva","so_sol_sim":0.0714},{"id":"SOL007","texto":"Bases de dados de produção da agropecuária brasileira.","comp":"COMP012","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D027","para_desafio":"Desenvolver, aperfeiçoar e integrar ferramentas, métodos, indicadores e modelos para caracterização e prognóstico do uso sustentável dos solos nas diferentes paisagens brasileiras","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 2","sim":0.0652,"rank_di_atual":98,"sim_di_atual":0.0,"diff":0.0652,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D001","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0},{"id":"SOL009","texto":"Definição e operacionalização do conceito de bacias logísticas de escoamento dos principais produtos de exportação da agropecuária brasileira.","comp":"COMP012","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D035","para_desafio":"Desenvolver soluções para manejo e gestão da água, visando a conservação de fontes superficiais e subterrâneas, em bacias hidrográficas nos agroecossistemas e ecossistemas naturais","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 6","sim":0.0663,"rank_di_atual":98,"sim_di_atual":0.0,"diff":0.0663,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D035","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0838},{"id":"SOL017","texto":"Mapeamento de áreas irrigadas em Polos de Agricultura Irrigada da região centro-oeste","comp":"COMP025","de_di":"D078","de_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.2","de_ods":"ODS 2","para_di":"D012","para_desafio":"Ampliar o conhecimento e a disponibilização de informações sobre a ocorrência e distribuição dos solos brasileiros e suas interpretações técnicas","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 15","sim":0.1,"rank_di_atual":90,"sim_di_atual":0.0,"diff":0.1,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D045","so_sol_port":"Agroecologia e Inclusão Socioprodutiva","so_sol_sim":0.046},{"id":"SOL013","texto":"Geração de análises geoespaciais com inteligência territorial estratégica baseadas em temas relacionados ao Cadastro Ambiental Rural (CAR)","comp":"COMP027","de_di":"D078","de_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.2","de_ods":"ODS 2","para_di":"D054","para_desafio":"Incrementar o desenvolvimento de bioinsumos para uso ambiental","para_port":"Economia Verde","para_oe":"OE5","para_meta":"Meta 05.1","para_ods":"ODS 12","sim":0.1302,"rank_di_atual":11,"sim_di_atual":0.0371,"diff":0.0931,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D054","so_sol_port":"Economia Verde","so_sol_sim":0.1409},{"id":"SOL039","texto":"Sistema de Inteligência Territorial Estratégica (SITE) da Baixada Cuiabana (MT) composto pela integração de banco de dados georreferenciados dos quadros natural, agrário, agrícola, socioeconômico e de infraestrutura da região e software para disponibilização e visualização de dados espaciais.","comp":"COMP024","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D054","para_desafio":"Incrementar o desenvolvimento de bioinsumos para uso ambiental","para_port":"Economia Verde","para_oe":"OE5","para_meta":"Meta 05.1","para_ods":"ODS 12","sim":0.0792,"rank_di_atual":15,"sim_di_atual":0.0264,"diff":0.0528,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D012","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0732},{"id":"SOL030","texto":"Plataforma do SITE-MLog expandida e atualizada, com a incorporação de novos dados e publicação de novos painéis interativos.","comp":"COMP012","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D048","para_desafio":"Fortalecer sistemas de monitoramento e rastreabilidade de produtos e serviços ecossistêmicos visando a agregação de renda, transparência e acesso a novos mercados com base na biodiversidade dos biomas brasileiros","para_port":"Economia da Biodiversidade","para_oe":"OE3","para_meta":"Meta 03.2","para_ods":"ODS 12","sim":0.084,"rank_di_atual":98,"sim_di_atual":0.0,"diff":0.084,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D048","so_sol_port":"Economia da Biodiversidade","so_sol_sim":0.1088},{"id":"SOL002","texto":"Atribuição, uso e ocupação das terras no Brasil e nos Biomas Amazônia e Cerrado","comp":"COMP027","de_di":"D078","de_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.2","de_ods":"ODS 2","para_di":"D059","para_desafio":"Intensificar e/ou propor Sistemas Integrados de Produção Não Convencionais","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 2","sim":0.0628,"rank_di_atual":85,"sim_di_atual":0.0,"diff":0.0628,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D106","so_sol_port":"Agroecologia e Inclusão Socioprodutiva","so_sol_sim":0.0518},{"id":"SOL003","texto":"Atualização, validação e avaliação da qualidade dos dados geoespaciais do mapeamento de viveiros escavados da aquicultura no Brasil.","comp":"COMP014","de_di":"D078","de_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.2","de_ods":"ODS 2","para_di":"D058","para_desafio":"Intensificar a Aquicultura com a adoção de práticas que aumentem a produção de forma sustentável, adaptadas às diferentes condições regionais, com foco na seleção de espécies, melhoria dos índices zootécnicos e da qualidade da água nos sistemas de criação/cultivo e otimização da alimentação nos criatórios","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE1","para_meta":"Meta 01.1","para_ods":"ODS 2","sim":0.1058,"rank_di_atual":8,"sim_di_atual":0.0286,"diff":0.0772,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D058","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.1111},{"id":"SOL022","texto":"Mapeamentos, levantamentos e indicação de tecnologias para a gestão hídrica sustentável e aproveitamento de resíduos da suinocultura, avicultura e piscicultura.","comp":"COMP014","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D020","para_desafio":"Aumentar a eficiência na utilização e/ou aproveitamento de insumos agropecuários e dos recursos naturais dos sistemas produtivos","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE1","para_meta":"Meta 01.1","para_ods":"ODS 2","sim":0.0678,"rank_di_atual":11,"sim_di_atual":0.034,"diff":0.0338,"tipo":"Muda DI e portfolio","mudou_di":"Sim","mudou_port":"Sim","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D020","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.0947},{"id":"SOL040","texto":"Sistema digital em apoio à gestão da produção orgânica e agroecológica","comp":"COMP013","de_di":"D046","de_desafio":"Fortalecer redes sociotécnicas com laboratórios ou nichos de inovação social e tecnológica para gestão organizacional, diversificação produtiva e acesso a mercados locais, associados à pluriatividade e à multifuncionalidade dos espaços rural, urbano, periurbano e das regiões costeiras","de_port":"Agroecologia e Inclusão Socioprodutiva","de_oe":"OE6","de_meta":"Sem meta","de_ods":"ODS 12","para_di":"D101","para_desafio":"Viabilizar sistemas agroalimentares com sinais distintivos ou identidade territorial que geram renda (monetária e não monetária) e valor a populações em situação de vulnerabilidade socioeconômica ou produtiva","para_port":"Agroecologia e Inclusão Socioprodutiva","para_oe":"OE6","para_meta":"Sem meta","para_ods":"ODS 8","sim":0.2118,"rank_di_atual":8,"sim_di_atual":0.0739,"diff":0.138,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D098","so_sol_port":"Transformação Digital no Agro","so_sol_sim":0.2004},{"id":"SOL043","texto":"Tecnologias para aprimoramento e promoção das Boas Práticas Agropecuárias, controle de perigos biológicos e químicos no leite, do produtor ao consumidor.","comp":"COMP007","de_di":"D062","de_desafio":"Melhorar qualidade, vida útil e/ou sanidade de produtos de origem animal e vegetal, com redução de perdas e de riscos ambientais associados","de_port":"Bioeficiência na Agropecuária","de_oe":"OE4","de_meta":"Meta 04.2","de_ods":"ODS 2","para_di":"D060","para_desafio":"Intensificar o aprimoramento da rastreabilidade, diagnóstico, prevenção e controle de contaminantes físicos, químicos e biológicos em produtos de origem animal e vegetal e/ou mitigar impactos e riscos relevantes na saúde única e em barreiras não tarifárias","para_port":"Bioeficiência na Agropecuária","para_oe":"OE4","para_meta":"Meta 04.1","para_ods":"ODS 12","sim":0.1446,"rank_di_atual":13,"sim_di_atual":0.0542,"diff":0.0904,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D060","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.1897},{"id":"SOL014","texto":"Indicadores de saúde do solo e estoques de carbono em áreas sob reflorestamento, pastagem e vegetação nativa do semiárido","comp":"COMP006","de_di":"D006","de_desafio":"Ampliar a multifuncionalidade da paisagem para garantir a manutenção dos serviços ecossistêmicos em áreas de produção agropecuária, agroflorestal e florestal","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.4","de_ods":"ODS 15","para_di":"D006","para_desafio":"Ampliar a multifuncionalidade da paisagem para garantir a manutenção dos serviços ecossistêmicos em áreas de produção agropecuária, agroflorestal e florestal","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 15","sim":0.2147,"rank_di_atual":1,"sim_di_atual":0.2147,"diff":0.0,"tipo":"Mantem DI","mudou_di":"Nao","mudou_port":"Nao","classe":"Mantem DI atual","metodo":"match_exato_texto_DI_atual","so_sol_di":"D044","so_sol_port":"Economia da Biodiversidade","so_sol_sim":0.1859},{"id":"SOL024","texto":"Metodologia de avaliação dos serviços ecossistêmicos da produção orgânica","comp":"COMP005","de_di":"D028","de_desafio":"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos para manter e/ou ampliar os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.4","de_ods":"ODS 12","para_di":"D028","para_desafio":"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos para manter e/ou ampliar os serviços ecossistêmicos","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 12","sim":0.3432,"rank_di_atual":1,"sim_di_atual":0.3432,"diff":0.0,"tipo":"Mantem DI","mudou_di":"Nao","mudou_port":"Nao","classe":"Mantem DI atual","metodo":"match_exato_texto_DI_atual","so_sol_di":"D028","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.1803},{"id":"SOL034","texto":"Protocolo para avaliação de serviços ecossistêmicos do solo e sua ambiência sob intensificação sustentável da agricultura, integrando diferentes escalas espaciais.","comp":"COMP004","de_di":"D001","de_desafio":"Agregar valor aos produtos e serviços dos sistemas produtivos sustentáveis, sistemas agrícolas tradicionais, ecossistemas naturais e regiões ecotonais que promovam a capacidade adaptativa, o controle de emissões de GEE e/ou amplie os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.3","de_ods":"ODS 15","para_di":"D028","para_desafio":"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos para manter e/ou ampliar os serviços ecossistêmicos","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 12","sim":0.2108,"rank_di_atual":5,"sim_di_atual":0.1204,"diff":0.0904,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D028","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.0991},{"id":"SOL035","texto":"Protocolos para certificação socioambiental e pagamento por serviços ambientais em propriedades rurais nas áreas de ocorrência do babaçu.","comp":"COMP005","de_di":"D028","de_desafio":"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos para manter e/ou ampliar os serviços ecossistêmicos","de_port":"Clima, recursos naturais e transformação ecológica","de_oe":"OE2","de_meta":"Meta 02.4","de_ods":"ODS 12","para_di":"D028","para_desafio":"Desenvolver indicadores e protocolos para contribuir com a certificação de produtos e/ou processos para manter e/ou ampliar os serviços ecossistêmicos","para_port":"Clima, recursos naturais e transformação ecológica","para_oe":"OE2","para_meta":"Meta 02.4","para_ods":"ODS 12","sim":0.3371,"rank_di_atual":1,"sim_di_atual":0.3371,"diff":0.0,"tipo":"Mantem DI","mudou_di":"Nao","mudou_port":"Nao","classe":"Mantem DI atual","metodo":"match_exato_texto_DI_atual","so_sol_di":"D028","so_sol_port":"Clima, recursos naturais e transformação ecológica","so_sol_sim":0.2752},{"id":"SOL042","texto":"Tecnologias para a exploração sustentável da cadeia da macaúba no contexto do Nordeste Brasileiro","comp":"COMP009","de_di":"D005","de_desafio":"Ampliar a eficiência energética e produção de bioenergia a partir de biomassa cultivada e/ou proveniente de resíduos","de_port":"Economia Verde","de_oe":"OE5","de_meta":"Meta 05.2","de_ods":"ODS 7","para_di":"D094","para_desafio":"Viabilizar o desenvolvimento de indicadores e modelos para quantificação de impactos decorrentes de processos e produtos derivados de biomassas","para_port":"Economia Verde","para_oe":"OE5","para_meta":"Meta 05.3","para_ods":"ODS 12","sim":0.1454,"rank_di_atual":29,"sim_di_atual":0.0,"diff":0.1454,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D099","so_sol_port":"Agroecologia e Inclusão Socioprodutiva","so_sol_sim":0.1112},{"id":"SOL021","texto":"Mapeamentos, bases de dados e apoio à formulação ou execução de políticas públicas, com vistas ao uso sustentável das terras, particularmente à recuperação e incorporação de áreas de pastagens degradadas ao processo de intensificação sustentável da produção na região do MATOPIBA.","comp":"COMP010","de_di":"D077","de_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","de_port":"Sistemas de Produção Sustentáveis e Resilientes","de_oe":"OE2","de_meta":"Meta 02.1","de_ods":"ODS 2","para_di":"D077","para_desafio":"Propor alternativas tecnológicas na recuperação e/ou conversão de pastagens degradadas","para_port":"Sistemas de Produção Sustentáveis e Resilientes","para_oe":"OE2","para_meta":"Meta 02.1","para_ods":"ODS 2","sim":0.2415,"rank_di_atual":1,"sim_di_atual":0.2415,"diff":0.0,"tipo":"Mantem DI","mudou_di":"Nao","mudou_port":"Nao","classe":"Mantem DI atual","metodo":"match_exato_texto_DI_atual","so_sol_di":"D077","so_sol_port":"Sistemas de Produção Sustentáveis e Resilientes","so_sol_sim":0.2402},{"id":"SOL001","texto":"Ações de Transferência de Tecnologias para apoiar a extensão rural do Estado de Minas Gerais.","comp":"COMP002","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D078","para_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","para_port":"Transformação Digital no Agro","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.2144,"rank_di_atual":3,"sim_di_atual":0.1072,"diff":0.1073,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D051","so_sol_port":"Biorrevolução","so_sol_sim":0.0852},{"id":"SOL008","texto":"Capacitação de extensionistas e técnicos da Assistência Rural do Tocantins sobre o uso da tecnologia GeoMatopiba e avaliação de seus impactos econômicos, sociais e ambientais.","comp":"COMP002","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D078","para_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","para_port":"Transformação Digital no Agro","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.1371,"rank_di_atual":2,"sim_di_atual":0.0929,"diff":0.0443,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Associacao atual defensavel","metodo":"match_exato_texto_DI_atual","so_sol_di":"D038","so_sol_port":"Bioeficiência na Agropecuária","so_sol_sim":0.0917},{"id":"SOL020","texto":"Mapeamentos, banco de dados e estudos prospectivos para a gestão hídrica superficial e subterrânea sustentável, junto à identificação de estruturas de biodigestores da suinocultura e avicultura e tanques-rede da aquicultura no estado do Paraná","comp":"COMP025","de_di":"D078","de_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.2","de_ods":"ODS 2","para_di":"D098","para_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","para_port":"Transformação Digital no Agro","para_oe":"OE1","para_meta":"Meta 01.3","para_ods":"ODS 2","sim":0.0899,"rank_di_atual":88,"sim_di_atual":0.0,"diff":0.0899,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D086","so_sol_port":"Agroecologia e Inclusão Socioprodutiva","so_sol_sim":0.0581},{"id":"SOL031","texto":"Plataforma informatizada para hospedar ações de inteligência territorial estratégica como divulgação de tecnologias e registro de demandas por capacitação nos quatro estados que compõe a região sudeste","comp":"COMP002","de_di":"D098","de_desafio":"Viabilizar plataformas digitais para a gestão de dados e informações científicas, como apoio ao setor agroprodutivo, às políticas públicas, à pesquisa e à inovação no agro","de_port":"Transformação Digital no Agro","de_oe":"OE1","de_meta":"Meta 01.3","de_ods":"ODS 2","para_di":"D078","para_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","para_port":"Transformação Digital no Agro","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.1537,"rank_di_atual":3,"sim_di_atual":0.0867,"diff":0.067,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Associacao transversal/ambigua","metodo":"match_exato_texto_DI_atual","so_sol_di":"D051","so_sol_port":"Biorrevolução","so_sol_sim":0.059},{"id":"SOL038","texto":"Sistema computacional baseado em Inteligência Artificial para simulação do impacto de políticas públicas de incentivos diretos e indiretos à diversidade em sistemas socioambientais de produção agrícola considerando diferentes contextos econômicos e climáticos no Litoral Norte e Agreste Baiano.","comp":"COMP021","de_di":"D075","de_desafio":"Promover soluções ciber físicas e digitais para impulsionar a transformação dos processos agroprodutivos, considerando os diferentes níveis tecnológicos das unidades produtivas","de_port":"Transformação Digital no Agro","de_oe":"OE7","de_meta":"Meta 07.1","de_ods":"ODS 2","para_di":"D078","para_desafio":"Prover soluções em inteligência geográfica para apoiar o setor agroprodutivo, o desenvolvimento territorial e as políticas públicas","para_port":"Transformação Digital no Agro","para_oe":"OE7","para_meta":"Meta 07.2","para_ods":"ODS 2","sim":0.1516,"rank_di_atual":12,"sim_di_atual":0.0449,"diff":0.1067,"tipo":"Muda DI no mesmo portfolio","mudou_di":"Sim","mudou_port":"Nao","classe":"Revisar associacao","metodo":"match_exato_texto_DI_atual","so_sol_di":"D078","so_sol_port":"Transformação Digital no Agro","so_sol_sim":0.1174}];
+const PORT_COLORS = {
   "Agroecologia e Inclusão Socioprodutiva": "#2a78d6",
   "Bioeficiência na Agropecuária":           "#1baf7a",
   "Biorrevolução":                           "#4a3aa7",
@@ -372,7 +716,7 @@ const COLORS = {
   "Sistemas de Produção Sustentáveis e Resilientes": "#eb6834",
   "Transformação Digital no Agro":           "#e34948"
 };
-const ABBR = {
+const PORT_ABBR = {
   "Agroecologia e Inclusão Socioprodutiva":"Agroecologia",
   "Bioeficiência na Agropecuária":"Bioeficiência",
   "Biorrevolução":"Biorrevolução",
@@ -382,74 +726,225 @@ const ABBR = {
   "Sistemas de Produção Sustentáveis e Resilientes":"Sist. Produção",
   "Transformação Digital no Agro":"Transf. Digital"
 };
+const ALL_PORTS = Object.keys(PORT_COLORS);
 
-let activeFilter = null;
-let selectedFlow = null;
+const CLASS_COLOR = {
+  "Mantem DI atual": "#2d6a4f",
+  "Associacao atual defensavel": "#1b6ca8",
+  "Associacao transversal/ambigua": "#b5451b",
+  "Revisar associacao": "#c0392b"
+};
+const CLASS_BADGE = {
+  "Mantem DI atual": "badge-ok",
+  "Associacao atual defensavel": "badge-info",
+  "Associacao transversal/ambigua": "badge-warn",
+  "Revisar associacao": "badge-err"
+};
+const CLASS_LABEL = {
+  "Mantem DI atual": "Mantém DI atual",
+  "Associacao atual defensavel": "Associação atual defensável",
+  "Associacao transversal/ambigua": "Associação transversal/ambígua",
+  "Revisar associacao": "Revisar associação"
+};
+const TIPO_COLOR = {
+  "Mantem DI": "#2d6a4f",
+  "Muda DI no mesmo portfolio": "#eda100",
+  "Muda DI e portfolio": "#c0392b"
+};
+const TIPO_BADGE = {
+  "Mantem DI": "badge-ok",
+  "Muda DI no mesmo portfolio": "badge-warn",
+  "Muda DI e portfolio": "badge-err"
+};
+const METODO_LABEL = {
+  "match_exato_texto_DI_atual": "Match exato (texto do DI atual)",
+  "inferido_por_TF_IDF_texto_DI_atual": "Inferido por TF-IDF (texto do DI atual)"
+};
 
-function getFiltered() {
-  if (!activeFilter) return DATA;
-  return DATA.filter(d => d.de_port === activeFilter || d.para_port === activeFilter);
+let state = {
+  tab: 'overview',
+  search: '',
+  port: null,
+  classe: null,
+  tipo: null,
+  selectedFlow: null,   // portfolio sankey: {de,para}
+  selectedDI: null,     // DI tab: {de,para}
+  expandedRow: null,    // table
+  sortCol: 'sim',
+  sortDir: 'desc'
+};
+
+function norm(s){ return (s||'').toLowerCase(); }
+
+function getFiltered(){
+  return DATA.filter(d => {
+    if (state.port && d.de_port !== state.port && d.para_port !== state.port) return false;
+    if (state.classe && d.classe !== state.classe) return false;
+    if (state.tipo && d.tipo !== state.tipo) return false;
+    if (state.search) {
+      const q = norm(state.search);
+      const hay = norm([d.id, d.texto, d.de_desafio, d.para_desafio, d.de_di, d.para_di, d.comp].join(' '));
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
 }
-function buildFlows(data) {
+
+function pct(n, total){ return total ? ((n/total)*100).toFixed(0) : 0; }
+
+/* ---------------- TABS ---------------- */
+function initTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      state.tab = btn.dataset.tab;
+      document.getElementById('panel-' + state.tab).classList.add('active');
+      document.getElementById('filterBarWrap').style.display = state.tab === 'overview' ? 'none' : 'block';
+      renderAll();
+    });
+  });
+  document.getElementById('filterBarWrap').style.display = 'none';
+}
+
+/* ---------------- FILTER BAR ---------------- */
+function initFilters(){
+  const portChips = document.getElementById('portChips');
+  portChips.innerHTML = '<span class="chip active" data-val="">Todos</span>' +
+    ALL_PORTS.map(p => '<span class="chip" data-val="' + p + '" style="border-color:' + PORT_COLORS[p] + '55">' + (PORT_ABBR[p]||p) + '</span>').join('');
+  portChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    portChips.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    state.port = c.dataset.val || null;
+    state.selectedFlow = null; state.selectedDI = null;
+    renderAll();
+  }));
+
+  const classChips = document.getElementById('classChips');
+  const classKeys = Object.keys(CLASS_LABEL);
+  classChips.innerHTML = '<span class="chip active" data-val="">Todas</span>' +
+    classKeys.map(c => '<span class="chip" data-val="' + c + '">' + CLASS_LABEL[c] + '</span>').join('');
+  classChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    classChips.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    state.classe = c.dataset.val || null;
+    state.selectedFlow = null; state.selectedDI = null;
+    renderAll();
+  }));
+
+  const tipoChips = document.getElementById('tipoChips');
+  const tipoKeys = Object.keys(TIPO_COLOR);
+  tipoChips.innerHTML = '<span class="chip active" data-val="">Todos</span>' +
+    tipoKeys.map(t => '<span class="chip" data-val="' + t + '">' + t + '</span>').join('');
+  tipoChips.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
+    tipoChips.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+    state.tipo = c.dataset.val || null;
+    state.selectedFlow = null; state.selectedDI = null;
+    renderAll();
+  }));
+
+  const search = document.getElementById('searchInput');
+  search.addEventListener('input', () => {
+    state.search = search.value;
+    renderAll();
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    state.search = ''; state.port = null; state.classe = null; state.tipo = null;
+    state.selectedFlow = null; state.selectedDI = null;
+    search.value = '';
+    [portChips, classChips, tipoChips].forEach(row => {
+      row.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+      row.querySelector('.chip').classList.add('active');
+    });
+    renderAll();
+  });
+}
+
+function updateResultCount(data){
+  document.getElementById('resultCount').textContent = data.length + ' de ' + DATA.length + ' soluções';
+}
+
+/* ---------------- OVERVIEW ---------------- */
+function renderOverview(data){
+  const cross = data.filter(d => d.tipo === "Muda DI e portfolio").length;
+  const mesmo = data.filter(d => d.tipo === "Muda DI no mesmo portfolio").length;
+  const keep  = data.filter(d => d.tipo === "Mantem DI").length;
+  const avg   = data.length ? data.reduce((s,d) => s+d.sim, 0) / data.length : 0;
+  const diAtual = new Set(data.map(d => d.de_di)).size;
+  const diPara  = new Set(data.map(d => d.para_di)).size;
+
+  document.getElementById('ovStats').innerHTML =
+    '<div class="stat"><div class="n">' + data.length + '</div><div class="l">soluções</div></div>' +
+    '<div class="stat"><div class="n" style="color:#c0392b">' + cross + '</div><div class="l">muda portfólio</div></div>' +
+    '<div class="stat"><div class="n" style="color:#eda100">' + mesmo + '</div><div class="l">muda DI · mesmo portfólio</div></div>' +
+    '<div class="stat"><div class="n" style="color:#2d6a4f">' + keep + '</div><div class="l">mantém DI atual</div></div>' +
+    '<div class="stat"><div class="n">' + (avg*100).toFixed(1) + '%</div><div class="l">similaridade média</div></div>' +
+    '<div class="stat"><div class="n">' + diAtual + ' → ' + diPara + '</div><div class="l">DI atuais → DI sugeridos distintos</div></div>';
+
+  renderBarBlock('ovClass', countBy(data, 'classe'), CLASS_COLOR, CLASS_LABEL);
+  renderBarBlock('ovTipo', countBy(data, 'tipo'), TIPO_COLOR, null);
+}
+
+function countBy(data, field){
+  const m = {};
+  data.forEach(d => { m[d[field]] = (m[d[field]]||0) + 1; });
+  return m;
+}
+
+function renderBarBlock(elId, counts, colorMap, labelMap){
+  const total = Object.values(counts).reduce((a,b)=>a+b,0) || 1;
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const el = document.getElementById(elId);
+  if (!entries.length){ el.innerHTML = '<div class="empty-state" style="padding:1rem 0">Sem dados para os filtros atuais.</div>'; return; }
+  el.innerHTML = entries.map(([k,v]) => {
+    const label = labelMap ? (labelMap[k]||k) : k;
+    const color = (colorMap && colorMap[k]) || '#8c9eb4';
+    const w = (v/total*100).toFixed(1);
+    return '<div class="bar-row"><div class="blabel">' + label + '</div>' +
+      '<div class="bar-track"><div class="bar-fill" style="width:' + w + '%;background:' + color + '"></div></div>' +
+      '<div class="bval">' + v + '</div></div>';
+  }).join('');
+}
+
+/* ---------------- PORTFOLIO SANKEY ---------------- */
+function buildFlows(data, deField, paraField){
   const m = {};
   data.forEach(d => {
-    const k = `${d.de_port}|||${d.para_port}`;
-    if (!m[k]) m[k] = { de: d.de_port, para: d.para_port, items: [] };
+    const k = d[deField] + '|||' + d[paraField];
+    if (!m[k]) m[k] = { de: d[deField], para: d[paraField], items: [] };
     m[k].items.push(d);
   });
   return Object.values(m);
 }
 
-function renderFilters() {
-  const ports = [...new Set(DATA.map(d => d.de_port))].sort();
-  const el = document.getElementById('filters');
-  el.innerHTML = `<span class="chip active" data-val="">Todos os portfólios</span>` +
-    ports.map(p => `<span class="chip" data-val="${p}">${ABBR[p]||p}</span>`).join('');
-  el.querySelectorAll('.chip').forEach(c => {
-    c.addEventListener('click', () => {
-      el.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-      c.classList.add('active');
-      activeFilter = c.dataset.val || null;
-      selectedFlow = null;
-      render();
-    });
-  });
-}
-
-function renderLegend() {
+function renderLegend(){
   document.getElementById('legend').innerHTML =
-    Object.entries(ABBR).map(([k,v]) =>
-      `<div class="legend-item"><div class="legend-dot" style="background:${COLORS[k]}"></div><span>${v} — <em style="font-style:normal;color:#aaa">${k}</em></span></div>`
+    ALL_PORTS.map(k =>
+      '<div class="legend-item"><div class="legend-dot" style="background:' + PORT_COLORS[k] + '"></div><span>' + (PORT_ABBR[k]||k) + ' — <em style="font-style:normal;color:#aaa">' + k + '</em></span></div>'
     ).join('');
 }
 
-function renderStats(data) {
-  const cross = data.filter(d => d.tipo === "Muda DI e portfolio").length;
-  const mesmo = data.filter(d => d.tipo === "Muda DI no mesmo portfolio").length;
-  const keep  = data.filter(d => d.tipo === "Mantem DI").length;
-  const avg   = data.reduce((s,d) => s+d.sim, 0) / data.length;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="n">${data.length}</div><div class="l">soluções</div></div>
-    <div class="stat"><div class="n" style="color:#e34948">${cross}</div><div class="l">muda portfólio</div></div>
-    <div class="stat"><div class="n" style="color:#eda100">${mesmo}</div><div class="l">mesmo portfólio</div></div>
-    <div class="stat"><div class="n" style="color:#008300">${keep}</div><div class="l">mantém desafio</div></div>
-    <div class="stat"><div class="n">${(avg*100).toFixed(1)}%</div><div class="l">similaridade média</div></div>
-  `;
-}
-
-function renderSankey(data) {
+function renderSankey(data){
   const svg = document.getElementById('sankey');
-  const W = 860, PAD = 16, COL_W = 148;
+  const W = 900, PAD = 16, COL_W = 156;
   const allDE   = [...new Set(data.map(d => d.de_port))].sort();
   const allPARA = [...new Set(data.map(d => d.para_port))].sort();
   const total   = data.length || 1;
-  const NODE_H  = 40;
-  const ROW_GAP = 10;
-  const AVAIL_H = Math.max(320, Math.max(allDE.length, allPARA.length) * (NODE_H + ROW_GAP));
+  const NODE_H  = 38;
+  const ROW_GAP = 9;
+  const AVAIL_H = Math.max(300, Math.max(allDE.length, allPARA.length, 1) * (NODE_H + ROW_GAP));
   const H = AVAIL_H + PAD * 2 + 20;
 
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
   svg.style.height = H + 'px';
+
+  if (!data.length){
+    svg.innerHTML = '<text x="' + (W/2) + '" y="' + (H/2) + '" text-anchor="middle" font-size="12" fill="#8c9eb4" font-family="-apple-system,Arial,sans-serif">Nenhuma solução para os filtros atuais</text>';
+    return;
+  }
 
   const PX = (AVAIL_H * 0.6) / total;
   const X_DE_L  = PAD;
@@ -466,7 +961,7 @@ function renderSankey(data) {
   allDE.forEach(p   => deOff[p] = 0);
   allPARA.forEach(p => paOff[p] = 0);
 
-  const flows = buildFlows(data);
+  const flows = buildFlows(data, 'de_port', 'para_port');
   let paths = '', nodes = '';
 
   flows.forEach(f => {
@@ -477,34 +972,34 @@ function renderSankey(data) {
     deOff[f.de]   += fh + 2;
     paOff[f.para] += fh + 2;
 
-    const isSel = selectedFlow && selectedFlow.de === f.de && selectedFlow.para === f.para;
-    const col   = f.de === f.para ? '#aaaaaa' : COLORS[f.de];
-    const op    = selectedFlow ? (isSel ? 0.8 : 0.12) : 0.42;
+    const isSel = state.selectedFlow && state.selectedFlow.de === f.de && state.selectedFlow.para === f.para;
+    const col   = f.de === f.para ? '#aaaaaa' : PORT_COLORS[f.de];
+    const op    = state.selectedFlow ? (isSel ? 0.8 : 0.12) : 0.42;
     const sw    = Math.max(3, fh);
-    const d     = `M ${X_DE_R} ${dy+fh/2} C ${MX} ${dy+fh/2} ${MX} ${py+fh/2} ${X_PA_L} ${py+fh/2}`;
-    const key   = `${f.de}|||${f.para}`;
+    const d     = 'M ' + X_DE_R + ' ' + (dy+fh/2) + ' C ' + MX + ' ' + (dy+fh/2) + ' ' + MX + ' ' + (py+fh/2) + ' ' + X_PA_L + ' ' + (py+fh/2);
+    const key   = f.de + '|||' + f.para;
 
-    paths += `<path d="${d}" fill="none" stroke="${col}" stroke-width="${sw}" stroke-opacity="${op}" class="fp" data-key="${key}" data-de="${f.de}" data-para="${f.para}" data-cnt="${cnt}" style="cursor:pointer"/>`;
+    paths += '<path d="' + d + '" fill="none" stroke="' + col + '" stroke-width="' + sw + '" stroke-opacity="' + op + '" class="fp" data-de="' + f.de + '" data-para="' + f.para + '" data-cnt="' + cnt + '" style="cursor:pointer"/>';
   });
 
   allDE.forEach(p => {
-    const y = deY[p]; const c = COLORS[p];
+    const y = deY[p]; const c = PORT_COLORS[p];
     const cnt = data.filter(d => d.de_port === p).length;
-    nodes += `<rect x="${X_DE_L}" y="${y}" width="${COL_W}" height="${NODE_H}" rx="5" fill="${c}" fill-opacity="0.13" stroke="${c}" stroke-width="1.5"/>`;
-    nodes += `<text x="${X_DE_L+COL_W/2}" y="${y+NODE_H/2-5}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${c}" font-family="-apple-system,Arial,sans-serif">${ABBR[p]||p}</text>`;
-    nodes += `<text x="${X_DE_L+COL_W/2}" y="${y+NODE_H/2+9}" text-anchor="middle" font-size="9" fill="${c}" opacity="0.7" font-family="-apple-system,Arial,sans-serif">${cnt} sol.</text>`;
+    nodes += '<rect x="' + X_DE_L + '" y="' + y + '" width="' + COL_W + '" height="' + NODE_H + '" rx="5" fill="' + c + '" fill-opacity="0.13" stroke="' + c + '" stroke-width="1.5"/>';
+    nodes += '<text x="' + (X_DE_L+COL_W/2) + '" y="' + (y+NODE_H/2-5) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="' + c + '" font-family="-apple-system,Arial,sans-serif">' + (PORT_ABBR[p]||p) + '</text>';
+    nodes += '<text x="' + (X_DE_L+COL_W/2) + '" y="' + (y+NODE_H/2+9) + '" text-anchor="middle" font-size="9" fill="' + c + '" opacity="0.7" font-family="-apple-system,Arial,sans-serif">' + cnt + ' sol.</text>';
   });
   allPARA.forEach(p => {
-    const y = paY[p]; const c = COLORS[p];
+    const y = paY[p]; const c = PORT_COLORS[p];
     const cnt = data.filter(d => d.para_port === p).length;
-    nodes += `<rect x="${X_PA_L}" y="${y}" width="${COL_W}" height="${NODE_H}" rx="5" fill="${c}" fill-opacity="0.13" stroke="${c}" stroke-width="1.5"/>`;
-    nodes += `<text x="${X_PA_L+COL_W/2}" y="${y+NODE_H/2-5}" text-anchor="middle" font-size="10.5" font-weight="600" fill="${c}" font-family="-apple-system,Arial,sans-serif">${ABBR[p]||p}</text>`;
-    nodes += `<text x="${X_PA_L+COL_W/2}" y="${y+NODE_H/2+9}" text-anchor="middle" font-size="9" fill="${c}" opacity="0.7" font-family="-apple-system,Arial,sans-serif">${cnt} sol.</text>`;
+    nodes += '<rect x="' + X_PA_L + '" y="' + y + '" width="' + COL_W + '" height="' + NODE_H + '" rx="5" fill="' + c + '" fill-opacity="0.13" stroke="' + c + '" stroke-width="1.5"/>';
+    nodes += '<text x="' + (X_PA_L+COL_W/2) + '" y="' + (y+NODE_H/2-5) + '" text-anchor="middle" font-size="10.5" font-weight="600" fill="' + c + '" font-family="-apple-system,Arial,sans-serif">' + (PORT_ABBR[p]||p) + '</text>';
+    nodes += '<text x="' + (X_PA_L+COL_W/2) + '" y="' + (y+NODE_H/2+9) + '" text-anchor="middle" font-size="9" fill="' + c + '" opacity="0.7" font-family="-apple-system,Arial,sans-serif">' + cnt + ' sol.</text>';
   });
 
   const labels =
-    `<text x="${X_DE_L+COL_W/2}" y="${PAD+10}" text-anchor="middle" font-size="10" fill="#8c9eb4" font-family="-apple-system,Arial,sans-serif" font-weight="600">DE (portfólio atual)</text>` +
-    `<text x="${X_PA_L+COL_W/2}" y="${PAD+10}" text-anchor="middle" font-size="10" fill="#8c9eb4" font-family="-apple-system,Arial,sans-serif" font-weight="600">PARA (sugerido TF-IDF)</text>`;
+    '<text x="' + (X_DE_L+COL_W/2) + '" y="' + (PAD+10) + '" text-anchor="middle" font-size="10" fill="#8c9eb4" font-family="-apple-system,Arial,sans-serif" font-weight="600">DE (portfólio atual)</text>' +
+    '<text x="' + (X_PA_L+COL_W/2) + '" y="' + (PAD+10) + '" text-anchor="middle" font-size="10" fill="#8c9eb4" font-family="-apple-system,Arial,sans-serif" font-weight="600">PARA (sugerido TF-IDF)</text>';
 
   svg.innerHTML = labels + paths + nodes;
 
@@ -513,65 +1008,316 @@ function renderSankey(data) {
     path.addEventListener('mouseenter', e => {
       tip.style.display = 'block';
       const de = path.dataset.de, para = path.dataset.para, cnt = path.dataset.cnt;
-      tip.innerHTML = `<strong>${ABBR[de]||de} → ${ABBR[para]||para}</strong>${cnt} solução${cnt>1?'ões':''}<br><span style="color:#8c9eb4;font-size:10px">Clique para ver detalhes</span>`;
+      tip.innerHTML = '<strong>' + (PORT_ABBR[de]||de) + ' → ' + (PORT_ABBR[para]||para) + '</strong>' + cnt + ' solução' + (cnt>1?'ões':'') + '<br><span style="color:#8c9eb4;font-size:10px">Clique para ver detalhes</span>';
       moveTip(e);
     });
     path.addEventListener('mousemove', moveTip);
     path.addEventListener('mouseleave', () => tip.style.display = 'none');
     path.addEventListener('click', () => {
       const de = path.dataset.de, para = path.dataset.para;
-      selectedFlow = (selectedFlow && selectedFlow.de===de && selectedFlow.para===para) ? null : {de, para};
-      render();
+      state.selectedFlow = (state.selectedFlow && state.selectedFlow.de===de && state.selectedFlow.para===para) ? null : {de, para};
+      renderAll();
     });
   });
 }
 
-function moveTip(e) {
+function moveTip(e){
   const t = document.getElementById('tip');
   t.style.left = (e.clientX + 14) + 'px';
   t.style.top  = (e.clientY - 10) + 'px';
 }
 
-function renderDetail(data) {
-  const el = document.getElementById('detail');
-  if (!selectedFlow) {
-    el.innerHTML = `<div class="empty-state"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 15l3-3m0 0l3-3M12 12l-3-3m3 3l3 3"/></svg>Clique em uma faixa do diagrama para ver as soluções correspondentes</div>`;
+function solCardHtml(s){
+  const cb = CLASS_BADGE[s.classe] || 'badge-warn';
+  const tb = TIPO_BADGE[s.tipo] || 'badge-warn';
+  return '<div class="sol-card" data-id="' + s.id + '">' +
+    '<div class="sol-id">' + s.id + ' · ' + s.de_di + ' → ' + s.para_di + '</div>' +
+    '<div class="sol-text">' + s.texto + '</div>' +
+    '<div class="sol-meta">' +
+      '<span class="badge ' + cb + '">' + (CLASS_LABEL[s.classe]||s.classe) + '</span>' +
+      '<span class="badge ' + tb + '">' + s.tipo + '</span>' +
+      '<span class="badge badge-info">sim: ' + (s.sim*100).toFixed(1) + '%</span>' +
+    '</div></div>';
+}
+
+function attachCardHandlers(container){
+  container.querySelectorAll('.sol-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const sol = DATA.find(d => d.id === card.dataset.id);
+      if (sol) openSolutionFromAnywhere(sol);
+    });
+  });
+}
+
+function renderPortDetail(data){
+  const el = document.getElementById('portDetail');
+  if (!state.selectedFlow){
+    el.innerHTML = '<div class="empty-state"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 15l3-3m0 0l3-3M12 12l-3-3m3 3l3 3"/></svg>Clique em uma faixa do diagrama para ver as soluções correspondentes</div>';
     return;
   }
-  const items = data.filter(d => d.de_port===selectedFlow.de && d.para_port===selectedFlow.para);
-  if (!items.length) { el.innerHTML = `<div class="empty-state">Nenhuma solução neste fluxo com os filtros atuais.</div>`; return; }
-  const dc = COLORS[selectedFlow.de], pc = COLORS[selectedFlow.para];
-  el.innerHTML = `
-    <h4><span style="color:${dc};font-weight:600">${ABBR[selectedFlow.de]||selectedFlow.de}</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c9eb4" stroke-width="2" style="vertical-align:middle"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    <span style="color:${pc};font-weight:600">${ABBR[selectedFlow.para]||selectedFlow.para}</span>
-    &nbsp;·&nbsp; ${items.length} solução${items.length>1?'ões':''}</h4>
-    <div class="solutions-grid">
-      ${items.map(s => {
-        const cb = s.class_==='Mantem DI atual'||s.class_==='Associacao atual defensavel' ? 'badge-ok' : 'badge-warn';
-        const tb = s.tipo==='Mantem DI' ? 'badge-ok' : s.tipo==='Muda DI e portfolio' ? 'badge-err' : 'badge-warn';
-        return `<div class="sol-card">
-          <div class="sol-id">${s.id} · ${s.de_di} → ${s.para_di}</div>
-          <div class="sol-text">${s.texto}</div>
-          <div class="sol-meta">
-            <span class="badge ${cb}">${s.class_}</span>
-            <span class="badge badge-info">sim: ${(s.sim*100).toFixed(1)}%</span>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
+  const items = data.filter(d => d.de_port===state.selectedFlow.de && d.para_port===state.selectedFlow.para);
+  if (!items.length){ el.innerHTML = '<div class="empty-state">Nenhuma solução neste fluxo com os filtros atuais.</div>'; return; }
+  const dc = PORT_COLORS[state.selectedFlow.de], pc = PORT_COLORS[state.selectedFlow.para];
+  el.innerHTML =
+    '<h4><span style="color:' + dc + ';font-weight:600">' + (PORT_ABBR[state.selectedFlow.de]||state.selectedFlow.de) + '</span>' +
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c9eb4" stroke-width="2" style="vertical-align:middle"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+    '<span style="color:' + pc + ';font-weight:600">' + (PORT_ABBR[state.selectedFlow.para]||state.selectedFlow.para) + '</span>' +
+    '&nbsp;·&nbsp; ' + items.length + ' solução' + (items.length>1?'ões':'') + '</h4>' +
+    '<div class="solutions-grid">' + items.map(solCardHtml).join('') + '</div>';
+  attachCardHandlers(el);
 }
 
-function render() {
+/* ---------------- DI VIEW ---------------- */
+function buildDIGroups(data){
+  const m = {};
+  data.forEach(d => {
+    if (!m[d.de_di]) m[d.de_di] = { di: d.de_di, desafio: d.de_desafio, port: d.de_port, items: [] };
+    m[d.de_di].items.push(d);
+  });
+  return Object.values(m).sort((a,b) => b.items.length - a.items.length);
+}
+
+function renderDIGrid(data){
+  const groups = buildDIGroups(data);
+  const grid = document.getElementById('diGrid');
+  if (!groups.length){ grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">Nenhum DI para os filtros atuais.</div>'; return; }
+  grid.innerHTML = groups.map(g => {
+    const color = PORT_COLORS[g.port] || '#8c9eb4';
+    const targets = {};
+    g.items.forEach(it => {
+      const key = it.para_di;
+      if (!targets[key]) targets[key] = { di: it.para_di, port: it.para_port, count: 0, simSum: 0 };
+      targets[key].count++;
+      targets[key].simSum += it.sim;
+    });
+    const chips = Object.values(targets).sort((a,b)=>b.count-a.count).map(t => {
+      const sel = state.selectedDI && state.selectedDI.de === g.di && state.selectedDI.para === t.di;
+      const avgSim = (t.simSum/t.count*100).toFixed(0);
+      return '<span class="di-target-chip' + (sel?' sel':'') + '" data-de="' + g.di + '" data-para="' + t.di + '" style="' + (sel?'':'border-color:' + PORT_COLORS[t.port] + '66') + '">' +
+        t.di + (t.di!==g.di ? '' : ' (mesmo)') + ' · ' + t.count + 'x · ~' + avgSim + '%</span>';
+    }).join('');
+    return '<div class="di-card" style="border-left-color:' + color + '">' +
+      '<div class="di-head"><span class="di-code">' + g.di + '</span><span class="di-count">' + g.items.length + ' solução' + (g.items.length>1?'ões':'') + '</span></div>' +
+      '<div class="di-port" style="color:' + color + '">' + (PORT_ABBR[g.port]||g.port) + '</div>' +
+      '<div class="di-desafio" title="' + g.desafio.replace(/"/g,'&quot;') + '">' + g.desafio + '</div>' +
+      '<div class="di-targets">' + chips + '</div>' +
+      '</div>';
+  }).join('');
+
+  grid.querySelectorAll('.di-target-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const de = chip.dataset.de, para = chip.dataset.para;
+      state.selectedDI = (state.selectedDI && state.selectedDI.de===de && state.selectedDI.para===para) ? null : {de, para};
+      renderAll();
+    });
+  });
+}
+
+function renderDIDetail(data){
+  const el = document.getElementById('diDetail');
+  if (!state.selectedDI){
+    el.innerHTML = '<div class="empty-state"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M9 15l3-3m0 0l3-3M12 12l-3-3m3 3l3 3"/></svg>Clique em um chip de DI sugerido para ver as soluções correspondentes</div>';
+    return;
+  }
+  const items = data.filter(d => d.de_di===state.selectedDI.de && d.para_di===state.selectedDI.para);
+  if (!items.length){ el.innerHTML = '<div class="empty-state">Nenhuma solução neste par com os filtros atuais.</div>'; return; }
+  const first = items[0];
+  el.innerHTML =
+    '<h4><span class="badge badge-info" style="font-family:var(--mono)">' + state.selectedDI.de + '</span>' +
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8c9eb4" stroke-width="2" style="vertical-align:middle"><path d="M5 12h14M13 6l6 6-6 6"/></svg>' +
+    '<span class="badge badge-info" style="font-family:var(--mono)">' + state.selectedDI.para + '</span>' +
+    '&nbsp;·&nbsp; ' + items.length + ' solução' + (items.length>1?'ões':'') + '</h4>' +
+    '<p style="font-size:11px;color:var(--text-muted);line-height:1.6;margin-bottom:10px"><strong>Desafio sugerido:</strong> ' + first.para_desafio + '</p>' +
+    '<div class="solutions-grid">' + items.map(solCardHtml).join('') + '</div>';
+  attachCardHandlers(el);
+}
+
+/* ---------------- TABLE ---------------- */
+const TABLE_COLS = [
+  { key: 'id', label: 'ID' },
+  { key: 'texto', label: 'Solução', sortable: false },
+  { key: 'de_port', label: 'Portfólio (DE → PARA)', sortable: false },
+  { key: 'de_di', label: 'DI (DE → PARA)', sortable: false },
+  { key: 'sim', label: 'Sim.' },
+  { key: 'classe', label: 'Classificação', sortable: false },
+  { key: 'tipo', label: 'Tipo', sortable: false }
+];
+
+function renderTableHead(){
+  const thead = document.querySelector('#solTable thead');
+  thead.innerHTML = '<tr>' + TABLE_COLS.map(c => {
+    const sortable = c.sortable !== false;
+    let arrow = '';
+    if (sortable && state.sortCol === c.key) arrow = ' <span class="arrow">' + (state.sortDir === 'asc' ? '▲' : '▼') + '</span>';
+    return '<th data-key="' + c.key + '" data-sortable="' + sortable + '">' + c.label + arrow + '</th>';
+  }).join('') + '</tr>';
+  thead.querySelectorAll('th').forEach(th => {
+    if (th.dataset.sortable !== 'true') return;
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (state.sortCol === key) state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+      else { state.sortCol = key; state.sortDir = 'desc'; }
+      renderTable(getFiltered());
+    });
+  });
+}
+
+function renderTable(data){
+  renderTableHead();
+  let sorted = data.slice();
+  sorted.sort((a,b) => {
+    let av = a[state.sortCol], bv = b[state.sortCol];
+    if (typeof av === 'string') { av = av.toLowerCase(); bv = bv.toLowerCase(); }
+    if (av < bv) return state.sortDir === 'asc' ? -1 : 1;
+    if (av > bv) return state.sortDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const tbody = document.querySelector('#solTable tbody');
+  if (!sorted.length){
+    tbody.innerHTML = '<tr><td colspan="' + TABLE_COLS.length + '"><div class="empty-state">Nenhuma solução para os filtros atuais.</div></td></tr>';
+    return;
+  }
+
+  let html = '';
+  sorted.forEach(s => {
+    const dc = PORT_COLORS[s.de_port] || '#8c9eb4', pc = PORT_COLORS[s.para_port] || '#8c9eb4';
+    html += '<tr class="row" data-id="' + s.id + '">' +
+      '<td class="id-cell">' + s.id + '</td>' +
+      '<td class="txt-cell">' + s.texto + '</td>' +
+      '<td class="port-flow"><span style="color:' + dc + ';font-weight:600">' + (PORT_ABBR[s.de_port]||s.de_port) + '</span><span class="arrow-sep">→</span><span style="color:' + pc + ';font-weight:600">' + (PORT_ABBR[s.para_port]||s.para_port) + '</span></td>' +
+      '<td class="di-flow"><span style="font-family:var(--mono)">' + s.de_di + '</span><span class="arrow-sep">→</span><span style="font-family:var(--mono)">' + s.para_di + '</span></td>' +
+      '<td><strong>' + (s.sim*100).toFixed(1) + '%</strong></td>' +
+      '<td><span class="badge ' + (CLASS_BADGE[s.classe]||'badge-warn') + '">' + (CLASS_LABEL[s.classe]||s.classe) + '</span></td>' +
+      '<td><span class="badge ' + (TIPO_BADGE[s.tipo]||'badge-warn') + '">' + s.tipo + '</span></td>' +
+      '</tr>';
+    if (state.expandedRow === s.id){
+      html += '<tr class="expand-row"><td colspan="' + TABLE_COLS.length + '">' + expandHtml(s) + '</td></tr>';
+    }
+  });
+  tbody.innerHTML = html;
+
+  tbody.querySelectorAll('tr.row').forEach(tr => {
+    tr.addEventListener('click', () => {
+      state.expandedRow = state.expandedRow === tr.dataset.id ? null : tr.dataset.id;
+      renderTable(getFiltered());
+    });
+  });
+}
+
+function expandHtml(s){
+  return '<div class="expand-grid">' +
+    '<div class="expand-col">' +
+      '<h5>Situação atual (DE)</h5>' +
+      '<div class="meta-line"><b>DI:</b> ' + s.de_di + ' · ' + (PORT_ABBR[s.de_port]||s.de_port) + '</div>' +
+      '<p>' + s.de_desafio + '</p>' +
+      '<div class="meta-line"><b>OE:</b> ' + s.de_oe + ' &nbsp;·&nbsp; <b>Meta:</b> ' + s.de_meta + ' &nbsp;·&nbsp; <b>ODS:</b> ' + s.de_ods + '</div>' +
+    '</div>' +
+    '<div class="expand-col">' +
+      '<h5>Sugestão TF-IDF (PARA)</h5>' +
+      '<div class="meta-line"><b>DI:</b> ' + s.para_di + ' · ' + (PORT_ABBR[s.para_port]||s.para_port) + '</div>' +
+      '<p>' + s.para_desafio + '</p>' +
+      '<div class="meta-line"><b>OE:</b> ' + s.para_oe + ' &nbsp;·&nbsp; <b>Meta:</b> ' + s.para_meta + ' &nbsp;·&nbsp; <b>ODS:</b> ' + s.para_ods + '</div>' +
+    '</div>' +
+    '<div class="expand-footer">' +
+      '<span><b>Compromisso:</b> ' + s.comp + '</span>' +
+      '<span><b>Rank do DI atual:</b> ' + (s.rank_di_atual ?? '—') + ' (sim. ' + (s.sim_di_atual*100).toFixed(1) + '%)</span>' +
+      '<span><b>Diferença Top1 − DI atual:</b> ' + (s.diff*100).toFixed(1) + ' p.p.</span>' +
+      '<span><b>Método:</b> ' + (METODO_LABEL[s.metodo] || s.metodo) + '</span>' +
+      '<span><b>Alternativa só-solução (sem compromisso):</b> ' + s.so_sol_di + ' · ' + s.so_sol_port + ' (sim. ' + (s.so_sol_sim*100).toFixed(1) + '%)</span>' +
+    '</div></div>';
+}
+
+function openSolutionFromAnywhere(sol){
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector('.tab-btn[data-tab="table"]').classList.add('active');
+  document.getElementById('panel-table').classList.add('active');
+  document.getElementById('filterBarWrap').style.display = 'block';
+  state.tab = 'table';
+  state.expandedRow = sol.id;
+  renderAll();
+  setTimeout(() => {
+    const row = document.querySelector('tr.row[data-id="' + sol.id + '"]');
+    if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 30);
+}
+
+/* ---------------- INDICATORS ---------------- */
+function renderIndicators(data){
+  renderBarBlock('indClass', countBy(data, 'classe'), CLASS_COLOR, CLASS_LABEL);
+  renderBarBlock('indTipo', countBy(data, 'tipo'), TIPO_COLOR, null);
+  renderBarBlock('indMetodo', countBy(data, 'metodo'), { 'match_exato_texto_DI_atual': '#1b6ca8', 'inferido_por_TF_IDF_texto_DI_atual': '#8c9eb4' }, METODO_LABEL);
+
+  // avg similarity by classe
+  const byClass = {};
+  data.forEach(d => {
+    if (!byClass[d.classe]) byClass[d.classe] = { sum: 0, n: 0 };
+    byClass[d.classe].sum += d.sim; byClass[d.classe].n++;
+  });
+  const el = document.getElementById('indSimClass');
+  const entries = Object.entries(byClass).sort((a,b) => (b[1].sum/b[1].n) - (a[1].sum/a[1].n));
+  if (!entries.length){ el.innerHTML = '<div class="empty-state" style="padding:1rem 0">Sem dados.</div>'; }
+  else {
+    el.innerHTML = entries.map(([k,v]) => {
+      const avg = v.sum / v.n;
+      const label = CLASS_LABEL[k] || k;
+      const color = CLASS_COLOR[k] || '#8c9eb4';
+      return '<div class="bar-row"><div class="blabel">' + label + '</div>' +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + (avg*100).toFixed(1) + '%;background:' + color + '"></div></div>' +
+        '<div class="bval">' + (avg*100).toFixed(0) + '%</div></div>';
+    }).join('');
+  }
+
+  renderBarBlock('indOdsDe', countBy(data, 'de_ods'), null, null);
+  renderBarBlock('indOdsPara', countBy(data, 'para_ods'), null, null);
+
+  renderMatrix(data);
+}
+
+function renderMatrix(data){
+  const rows = ALL_PORTS.slice();
+  const cols = ALL_PORTS.slice();
+  const counts = {};
+  let max = 0;
+  data.forEach(d => {
+    const k = d.de_port + '|||' + d.para_port;
+    counts[k] = (counts[k]||0) + 1;
+    if (counts[k] > max) max = counts[k];
+  });
+  const table = document.getElementById('matrixTable');
+  let html = '<tr><th></th>' + cols.map(c => '<th class="colhead" style="color:' + PORT_COLORS[c] + '">' + (PORT_ABBR[c]||c) + '</th>').join('') + '</tr>';
+  rows.forEach(r => {
+    html += '<tr><th class="rowhead" style="color:' + PORT_COLORS[r] + '">' + (PORT_ABBR[r]||r) + '</th>';
+    cols.forEach(c => {
+      const v = counts[r + '|||' + c] || 0;
+      const isDiag = r === c;
+      const intensity = max ? (v / max) : 0;
+      const bg = v === 0 ? 'transparent' : 'rgba(27,108,168,' + (0.08 + intensity*0.55).toFixed(2) + ')';
+      html += '<td class="cell' + (isDiag?' diag':'') + '" style="background:' + bg + '">' + (v || '·') + '</td>';
+    });
+    html += '</tr>';
+  });
+  table.innerHTML = html;
+}
+
+/* ---------------- MASTER RENDER ---------------- */
+function renderAll(){
   const data = getFiltered();
-  renderStats(data);
-  renderSankey(data);
-  renderDetail(data);
+  updateResultCount(data);
+  if (state.tab === 'overview') renderOverview(data);
+  if (state.tab === 'portfolio') { renderSankey(data); renderPortDetail(data); }
+  if (state.tab === 'di') { renderDIGrid(data); renderDIDetail(data); }
+  if (state.tab === 'table') renderTable(data);
+  if (state.tab === 'indicators') renderIndicators(data);
 }
 
-renderFilters();
+initTabs();
+initFilters();
 renderLegend();
-render();
+renderOverview(DATA);
+renderAll();
+
 </script>
 </body>
 </html>
